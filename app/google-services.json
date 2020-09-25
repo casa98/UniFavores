@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "260579336830",
+    "firebase_url": "https://unifavores-4ff7f.firebaseio.com",
+    "project_id": "unifavores-4ff7f",
+    "storage_bucket": "unifavores-4ff7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260579336830:android:a129dbf41720bc8dde2e2f",
+        "android_client_info": {
+          "package_name": "com.cagudeloa.unifavores"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260579336830-4ie8sr1tuo6ls8gppqgvmmki05eiegbh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cagudeloa.unifavores",
+            "certificate_hash": "3351e4701c751fd96de8477b0b1e36668657fe91"
+          }
+        },
+        {
+          "client_id": "260579336830-v9kmcshoq1fkq87iglp8agrst8648k6s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHd2p7oZ0fJy07nKcpf6jrM7VSJ4Ungws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260579336830-v9kmcshoq1fkq87iglp8agrst8648k6s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
