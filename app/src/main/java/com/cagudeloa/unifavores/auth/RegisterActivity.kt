@@ -10,11 +10,13 @@ import com.cagudeloa.unifavores.MainActivity
 import com.cagudeloa.unifavores.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,13 +52,24 @@ class RegisterActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this){createUser ->
                 if (createUser.isSuccessful){
+                    // Create a collection whose ID is the userId (which is unique)
+                    val uid = auth.currentUser!!.uid
 
-                    // TODO Here I have to create a collection for this user, save some data like {uid} and {username}
-
-                    Log.i("INFO", auth.uid.toString())
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid)
+                    // I'll save some data here to then, save in on db
+                    val hashMap: HashMap<String, String> = HashMap()
+                    hashMap["uid"] = uid
+                    hashMap["username"] = username
+                    hashMap["image"] = ""
+                    databaseReference.setValue(hashMap).addOnCompleteListener(this){result ->
+                        if(result.isSuccessful){
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }else{
+                            Toast.makeText(this, "User couldn't be created", Toast.LENGTH_LONG).show()
+                        }
+                    }
 
                 }else{
                     Toast.makeText(this, "User couldn't be created", Toast.LENGTH_LONG).show()
