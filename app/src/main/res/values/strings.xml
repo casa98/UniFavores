@@ -14,4 +14,5 @@
     <string name="log_in_instead">Login instead</string>
     <string name="login">Login</string>
     <string name="new_user_register_now">New user? Register now</string>
+    <string name="add_favor">Add favor</string>
 </resources>

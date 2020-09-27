@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.cagudeloa.unifavores.ui.favors.FavorsFragment"
-        android:label="@string/title_home"
+        android:label="Active favors"
         tools:layout="@layout/fragment_favors" />
 
     <fragment
