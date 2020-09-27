@@ -48,7 +48,6 @@ class FavorsFragment : Fragment() {
     }
 
     private fun getUsersList(){
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
         val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
         databaseReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -58,8 +57,10 @@ class FavorsFragment : Fragment() {
                     val user = dataSnapshot.getValue(Favor::class.java)
                     favors.add(user!!)
                     // Setup adapter
+                    Log.i(":", favors.toString())
                     val userAdapter = FavorsAdapter(requireContext(), favors)
-                    myRecyclerView.adapter = userAdapter
+                    if( myRecyclerView!=null)
+                        myRecyclerView.adapter = userAdapter
                 }
             }
 

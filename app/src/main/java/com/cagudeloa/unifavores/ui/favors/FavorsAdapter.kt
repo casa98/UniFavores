@@ -20,7 +20,7 @@ class FavorsAdapter(private val context: Context, private val favor: ArrayList<F
         // TODO Set here layout for future OnClickListener on items
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavorsAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_recycler, parent, false)
         return ViewHolder(view)
     }
@@ -29,7 +29,7 @@ class FavorsAdapter(private val context: Context, private val favor: ArrayList<F
         val favor = favor[position]
         holder.user.text = favor.user
         holder.image.setImageResource(R.drawable.ic_person)
-        holder.text.text = favor.favorDescription
+        holder.text.text = favor.favorTitle
     }
 
     override fun getItemCount(): Int {
