@@ -57,7 +57,6 @@ class FavorsFragment : Fragment() {
                     val user = dataSnapshot.getValue(Favor::class.java)
                     favors.add(user!!)
                     // Setup adapter
-                    Log.i(":", favors.toString())
                     val userAdapter = FavorsAdapter(requireContext(), favors)
                     if( myRecyclerView!=null)
                         myRecyclerView.adapter = userAdapter
