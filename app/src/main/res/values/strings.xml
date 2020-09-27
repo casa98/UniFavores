@@ -15,4 +15,9 @@
     <string name="login">Login</string>
     <string name="new_user_register_now">New user? Register now</string>
     <string name="add_favor">Add favor</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="llena_los_siguientes_campos">Llena los siguientes campos:</string>
+    <string name="un_titulo_para_tu_favor">Un título para tu favor</string>
+    <string name="descripcion">Descripción</string>
+    <string name="pedir_favor">Pedir favor</string>
 </resources>

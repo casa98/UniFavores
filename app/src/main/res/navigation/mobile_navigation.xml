@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.cagudeloa.unifavores.ui.favors.FavorsFragment"
-        android:label="Active favors"
+        android:label="Favores sin hacer"
         tools:layout="@layout/fragment_favors" />
 
     <fragment
@@ -22,4 +22,9 @@
         android:name="com.cagudeloa.unifavores.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/addFavor"
+        android:name="com.cagudeloa.unifavores.ui.AddFavorFragment"
+        android:label="Pide un favor"
+        tools:layout="@layout/fragment_add_favor" />
 </navigation>

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/addNote"
+        android:id="@+id/addFavor"
         android:title="@string/add_favor"
         android:icon="@drawable/ic_add"
         app:showAsAction="ifRoom"/>
