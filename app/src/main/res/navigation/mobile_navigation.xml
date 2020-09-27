@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.cagudeloa.unifavores.ui.home.HomeFragment"
+        android:name="com.cagudeloa.unifavores.ui.favors.FavorsFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_favors" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
