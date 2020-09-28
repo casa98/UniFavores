@@ -8,23 +8,12 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.cagudeloa.unifavores.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="Chats"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.cagudeloa.unifavores.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.cagudeloa.unifavores.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-    <fragment
         android:id="@+id/profile"
         android:name="com.cagudeloa.unifavores.ui.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
