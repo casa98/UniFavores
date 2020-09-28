@@ -9,11 +9,18 @@
         android:id="@+id/navigation_home"
         android:name="com.cagudeloa.unifavores.ui.home.HomeFragment"
         android:label="Chats"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profile"
         android:name="com.cagudeloa.unifavores.ui.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.cagudeloa.unifavores.ui.ChatFragment" />
 </navigation>

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
 
     private lateinit var homeViewModel: HomeViewModel
     var userList = ArrayList<User>()
@@ -52,7 +53,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getUsersList(){
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
         val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         databaseReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
                     userList.add(user!!)
 
                     // Setup adapter
-                    val userAdapter = UserAdapter(requireContext(), userList)
+                    val userAdapter = UserAdapter(requireContext(), this@HomeFragment, userList)
                     myRecyclerView.adapter = userAdapter
                 }
             }
@@ -78,5 +78,13 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView(){
         myRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         myRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+    }
+
+    override fun onItemClick(user: String) {
+        // Navigate to Chat fragment
+        // This is triggered when an item is clicked
+        val bundle = Bundle()
+        bundle.putString("user", user)
+        findNavController().navigate(R.id.action_navigation_home_to_chatFragment, bundle)
     }
 }
