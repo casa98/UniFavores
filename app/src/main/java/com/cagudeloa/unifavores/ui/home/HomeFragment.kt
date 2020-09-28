@@ -53,6 +53,7 @@ class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
     }
 
     private fun getUsersList(){
+        val firebaseUser = FirebaseAuth.getInstance().currentUser!!
         val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         databaseReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -60,7 +61,8 @@ class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
                 userList.clear()
                 for (dataSnapshot: DataSnapshot in snapshot.children){
                     val user = dataSnapshot.getValue(User::class.java)
-                    userList.add(user!!)
+                    if(user!!.uid != firebaseUser.uid)
+                        userList.add(user)
 
                     // Setup adapter
                     val userAdapter = UserAdapter(requireContext(), this@HomeFragment, userList)
