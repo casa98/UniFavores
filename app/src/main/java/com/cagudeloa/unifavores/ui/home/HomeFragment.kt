@@ -64,9 +64,11 @@ class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
                     if(user!!.uid != firebaseUser.uid)
                         userList.add(user)
 
-                    // Setup adapter
-                    val userAdapter = UserAdapter(requireContext(), this@HomeFragment, userList)
-                    myRecyclerView.adapter = userAdapter
+                    if(isAdded){
+                        // Setup adapter
+                        val userAdapter = UserAdapter(requireContext(), this@HomeFragment, userList)
+                        myRecyclerView.adapter = userAdapter
+                    }
                 }
             }
 
