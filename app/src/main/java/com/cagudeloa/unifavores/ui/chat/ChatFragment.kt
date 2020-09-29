@@ -95,7 +95,10 @@ class ChatFragment : Fragment() {
                 // Setup adapter
                 if(isAdded){
                     val chatAdapter = ChatAdapter(requireContext(), chatList)
-                    binding.chatRecyclerView.adapter = chatAdapter
+                    binding.apply {
+                    chatRecyclerView.adapter = chatAdapter
+                    chatRecyclerView.scrollToPosition(chatAdapter.itemCount-1)
+                    }
                 }
             }
 

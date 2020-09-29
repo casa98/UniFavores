@@ -10,7 +10,6 @@ import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.model.Chat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import de.hdodenhof.circleimageview.CircleImageView
 
 class ChatAdapter(private val context: Context,
                   private val chatList: ArrayList<Chat>): RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
@@ -20,7 +19,6 @@ class ChatAdapter(private val context: Context,
     private var firebaseUser: FirebaseUser? = null
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val chatImage: CircleImageView = view.findViewById(R.id.chatImage)
         val chatMessage: TextView = view.findViewById(R.id.chatMessage)
     }
 
@@ -36,7 +34,6 @@ class ChatAdapter(private val context: Context,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val chat = chatList[position]
-        // TODO Load image using Picasso :)
         holder.chatMessage.text = chat.message
     }
 
