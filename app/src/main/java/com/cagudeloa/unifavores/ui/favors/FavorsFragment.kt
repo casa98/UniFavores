@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_favors.*
 
-class FavorsFragment : Fragment() {
+class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
 
     var favors = ArrayList<Favor>()
 
@@ -56,7 +57,7 @@ class FavorsFragment : Fragment() {
                     val user = dataSnapshot.getValue(Favor::class.java)
                     favors.add(user!!)
                     // Setup adapter
-                    val userAdapter = FavorsAdapter(requireContext(), favors)
+                    val userAdapter = FavorsAdapter(requireContext(), this@FavorsFragment, favors)
                     if( myRecyclerView!=null)
                         myRecyclerView.adapter = userAdapter
                 }
@@ -72,5 +73,11 @@ class FavorsFragment : Fragment() {
     private fun setupRecyclerView(){
         myRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         myRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+    }
+
+    override fun onItemClick(favor: Favor) {
+        val bundle = Bundle()
+        bundle.putParcelable("favor", favor)
+        findNavController().navigate(R.id.action_navigation_home_to_favorDetailsFragment, bundle)
     }
 }

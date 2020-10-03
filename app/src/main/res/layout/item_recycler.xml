@@ -11,7 +11,7 @@
     android:layout_marginBottom="8dp">
 
     <TextView
-        android:id="@+id/usernameText"
+        android:id="@+id/favorTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
@@ -24,7 +24,7 @@
         tools:text="Username" />
 
     <TextView
-        android:id="@+id/secondText"
+        android:id="@+id/favorDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameText"
+        app:layout_constraintTop_toBottomOf="@+id/favorTitle"
         tools:text="Temp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

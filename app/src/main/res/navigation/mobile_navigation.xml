@@ -9,22 +9,20 @@
         android:id="@+id/navigation_home"
         android:name="com.cagudeloa.unifavores.ui.favors.FavorsFragment"
         android:label="Favores sin hacer"
-        tools:layout="@layout/fragment_favors" />
+        tools:layout="@layout/fragment_favors" >
+        <action
+            android:id="@+id/action_navigation_home_to_favorDetailsFragment"
+            app:destination="@id/favorDetailsFragment" />
+    </fragment>
 
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.cagudeloa.unifavores.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.cagudeloa.unifavores.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/addFavor"
         android:name="com.cagudeloa.unifavores.ui.AddFavorFragment"
         android:label="Pide un favor"
         tools:layout="@layout/fragment_add_favor" />
+    <fragment
+        android:id="@+id/favorDetailsFragment"
+        android:name="com.cagudeloa.unifavores.ui.details.FavorDetailsFragment"
+        android:label="Detalles"
+        tools:layout="@layout/fragment_favor_details" />
 </navigation>
