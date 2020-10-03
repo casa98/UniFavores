@@ -43,27 +43,4 @@ class FavorsAdapter(
     override fun getItemCount(): Int {
         return favor.size
     }
-
-    /*
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val user: TextView = view.usernameText
-        val text: TextView = view.secondText
-        // TODO Set here layout for future OnClickListener on items
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_recycler, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val favor = favor[position]
-        holder.user.text = favor.favorTitle
-        holder.text.text = favor.favorDescription
-    }
-
-    override fun getItemCount(): Int {
-        return favor.size
-    }
-    */
 }

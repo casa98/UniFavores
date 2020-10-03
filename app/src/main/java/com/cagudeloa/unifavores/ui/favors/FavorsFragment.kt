@@ -56,11 +56,12 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
                 for (dataSnapshot: DataSnapshot in snapshot.children){
                     val user = dataSnapshot.getValue(Favor::class.java)
                     favors.add(user!!)
-                    // Setup adapter
-                    val userAdapter = FavorsAdapter(requireContext(), this@FavorsFragment, favors)
-                    if( myRecyclerView!=null)
-                        myRecyclerView.adapter = userAdapter
                 }
+                favors.reverse()
+                // Setup adapter
+                val userAdapter = FavorsAdapter(requireContext(), this@FavorsFragment, favors)
+                if( myRecyclerView!=null)
+                    myRecyclerView.adapter = userAdapter
             }
 
             override fun onCancelled(error: DatabaseError) {
