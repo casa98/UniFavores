@@ -15,7 +15,6 @@ class FavorsAdapter(private val context: Context, private val favor: ArrayList<F
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val user: TextView = view.usernameText
-        val image: ImageView = view.userImage
         val text: TextView = view.secondText
         // TODO Set here layout for future OnClickListener on items
     }
@@ -27,9 +26,8 @@ class FavorsAdapter(private val context: Context, private val favor: ArrayList<F
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val favor = favor[position]
-        holder.user.text = favor.user
-        holder.image.setImageResource(R.drawable.ic_person)
-        holder.text.text = favor.favorTitle
+        holder.user.text = favor.favorTitle
+        holder.text.text = favor.favorDescription
     }
 
     override fun getItemCount(): Int {
