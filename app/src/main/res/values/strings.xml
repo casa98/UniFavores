@@ -20,4 +20,5 @@
     <string name="un_titulo_para_tu_favor">Un título para tu favor</string>
     <string name="descripcion">Descripción</string>
     <string name="pedir_favor">Pedir favor</string>
+    <string name="favor_pedido_por">Favor pedido por:</string>
 </resources>

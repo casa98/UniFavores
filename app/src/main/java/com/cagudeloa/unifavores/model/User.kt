@@ -4,5 +4,6 @@ data class User(
     var uid: String = "",
     var username: String = "",
     var image: String = "",
-    var message: String = "None"
+    // This is the starting score value
+    var score: Int = 2
 )
