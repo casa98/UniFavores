@@ -2,10 +2,12 @@ package com.cagudeloa.unifavores.ui.details
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.cagudeloa.unifavores.R
@@ -50,6 +52,32 @@ class FavorDetailsFragment : Fragment() {
         binding.descriptionFavor.text = favor.favorDescription
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.doFavorButton.setOnClickListener {
+            if(binding.doFavorButton.text == getString(R.string.realizar_favor)){
+                // Add favor to the current user
+                binding.doFavorButton.text = getString(R.string.go_to_chat)
+                Toast.makeText(requireContext(), "Favores pendientes --> Menú", Toast.LENGTH_SHORT).show()
+                // Go to firebase and change favor status from 0 to -1 (assigned)
+                // Get favorID:
+                val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
+                databaseReference.orderByChild("user")
+                    .equalTo(favor.user).addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val favorID = snapshot.children.iterator().next().key.toString()
+                            // TODO Delete favor whose ID is {favorID}
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }else{
+                // Take the current user to the chat with the favor requester
+                Log.d("CHAT", "Go to chat")
+            }
+        }
     }
 
     override fun onDestroyView() {

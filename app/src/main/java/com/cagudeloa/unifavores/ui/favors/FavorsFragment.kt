@@ -59,8 +59,11 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
                 favors.clear()
                 for (dataSnapshot: DataSnapshot in snapshot.children){
                     val favor = dataSnapshot.getValue(Favor::class.java)
-                    if(favor!!.user != currentUser)     // Add to favors list, if I didn't request the favor
-                        favors.add(favor)
+                    if(favor!!.user != currentUser) {     // Add to favors list, if I didn't request the favor
+                        if(favor.status == "0"){    // It's unassigned
+                            favors.add(favor)
+                        }
+                    }
                 }
                 favors.reverse()
                 // Setup adapter

@@ -38,6 +38,7 @@
             android:paddingBottom="16dp"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
+            tools:text="La Daniela"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
@@ -69,6 +70,7 @@
             android:layout_marginEnd="8dp"
             android:textColor="#000000"
             android:textSize="16sp"
+            tools:text="Necesito unas copias al 5k"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -77,11 +79,22 @@
             android:id="@+id/descriptionFavor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
+            tools:text="Estoy a punto de empezar un parcial, el profe es un maldito y no deja que uno salga a sacar las copias, por fi ayudenmeeeee, Edge 1 páginas 56-59. De verdad muchas gracias"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleFavor" />
+
+        <Button
+            android:id="@+id/doFavorButton"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/realizar_favor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
