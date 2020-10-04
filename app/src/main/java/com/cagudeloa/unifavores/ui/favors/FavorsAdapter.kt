@@ -26,6 +26,7 @@ class FavorsAdapter(
         override fun bind(item: Favor, position: Int) {
             itemView.favorTitle.text = item.favorTitle
             itemView.favorDescription.text = item.favorDescription
+            itemView.favorDate.text = item.creationDate
             itemView.setOnClickListener { itemClickListener.onItemClick(item) }
         }
 

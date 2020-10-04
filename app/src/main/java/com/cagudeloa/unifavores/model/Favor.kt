@@ -8,7 +8,8 @@ data class Favor(
     var user: String = "Anonymous user",
     var favorTitle: String = "Favor title",
     var favorDescription: String = "Favor description",
-    var status: Int = 0
+    val creationDate: String = "",
+    var status: String = "0"
     /**
      *  0 --> not-assigned
      * -1 --> assigned

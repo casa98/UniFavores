@@ -14,11 +14,12 @@
         android:id="@+id/favorTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/favorDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Username" />
@@ -36,5 +37,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/favorTitle"
         tools:text="Temp" />
+
+    <TextView
+        android:id="@+id/favorDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Oct-12  21:45" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
