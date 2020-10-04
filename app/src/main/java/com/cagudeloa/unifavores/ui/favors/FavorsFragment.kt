@@ -21,7 +21,8 @@ import kotlinx.android.synthetic.main.fragment_favors.*
 
 class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
 
-    var favors = ArrayList<Favor>()
+    private var favors = ArrayList<Favor>()
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
@@ -49,13 +50,17 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
 
     private fun getUsersList(){
         val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
+        // This is not to show the favors made my myself
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser!!.uid
         databaseReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Reload data
                 favors.clear()
                 for (dataSnapshot: DataSnapshot in snapshot.children){
-                    val user = dataSnapshot.getValue(Favor::class.java)
-                    favors.add(user!!)
+                    val favor = dataSnapshot.getValue(Favor::class.java)
+                    if(favor!!.user != currentUser)     // Add to favors list, if I didn't request the favor
+                        favors.add(favor)
                 }
                 favors.reverse()
                 // Setup adapter
