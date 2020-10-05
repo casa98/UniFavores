@@ -1,4 +1,4 @@
-package com.cagudeloa.unifavores.ui.messages
+package com.cagudeloa.unifavores.ui.chat
 
 import android.content.Context
 import android.view.LayoutInflater

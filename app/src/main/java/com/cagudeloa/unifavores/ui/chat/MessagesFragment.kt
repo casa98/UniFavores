@@ -1,4 +1,4 @@
-package com.cagudeloa.unifavores.ui.messages
+package com.cagudeloa.unifavores.ui.chat
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

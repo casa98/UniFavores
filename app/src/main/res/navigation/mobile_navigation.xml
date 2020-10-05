@@ -24,14 +24,15 @@
         android:id="@+id/favorDetailsFragment"
         android:name="com.cagudeloa.unifavores.ui.details.FavorDetailsFragment"
         android:label="Detalles"
-        tools:layout="@layout/fragment_favor_details" >
-        <action
-            android:id="@+id/action_favorDetailsFragment_to_messagesFragment"
-            app:destination="@id/messagesFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_favor_details" />
     <fragment
-        android:id="@+id/messagesFragment"
-        android:name="com.cagudeloa.unifavores.ui.messages.MessagesFragment"
-        android:label="MessagesFragment"
-        tools:layout="@layout/fragment_messages"/>
+        android:id="@+id/chatsFragment"
+        android:name="com.cagudeloa.unifavores.ui.chat.ChatsFragment"
+        android:label="Conversaciones"
+        tools:layout="@layout/fragment_chats" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.cagudeloa.unifavores.ui.profile.ProfileFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
