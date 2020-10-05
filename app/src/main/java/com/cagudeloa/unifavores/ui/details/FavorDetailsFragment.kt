@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentFavorDetailsBinding
 import com.cagudeloa.unifavores.model.Favor
@@ -57,26 +58,20 @@ class FavorDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.doFavorButton.setOnClickListener {
-            if(binding.doFavorButton.text == getString(R.string.realizar_favor)){
-                // Add favor to the current user
-                binding.doFavorButton.text = getString(R.string.go_to_chat)
-                Toast.makeText(requireContext(), "Favores pendientes --> Menú", Toast.LENGTH_SHORT).show()
-                // Go to firebase and change favor status from 0 to -1 (assigned)
-                // Get favorID:
-                val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
-                databaseReference.orderByChild("user")
-                    .equalTo(favor.user).addListenerForSingleValueEvent(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            val favorID = snapshot.children.iterator().next().key.toString()
-                            // TODO Delete favor whose ID is {favorID}
-                        }
+            // Add favor to the current user
+            Log.i("MESSAGE", "Show dialog telling to go to Chats in Menu to chat with the person you're doing the favor")
+            // Go to firebase and change favor status from 0 to -1 (assigned)
+            // Get favorID:
+            val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
+            databaseReference.orderByChild("user")
+                .equalTo(favor.user).addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val favorID = snapshot.children.iterator().next().key.toString()
+                        // TODO Delete favor whose ID is {favorID}
+                    }
 
-                        override fun onCancelled(error: DatabaseError) {}
-                    })
-            }else{
-                // Take the current user to the chat with the favor requester
-                Log.d("CHAT", "Go to chat")
-            }
+                    override fun onCancelled(error: DatabaseError) {}
+            })
         }
     }
 

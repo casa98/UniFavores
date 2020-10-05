@@ -24,5 +24,14 @@
         android:id="@+id/favorDetailsFragment"
         android:name="com.cagudeloa.unifavores.ui.details.FavorDetailsFragment"
         android:label="Detalles"
-        tools:layout="@layout/fragment_favor_details" />
+        tools:layout="@layout/fragment_favor_details" >
+        <action
+            android:id="@+id/action_favorDetailsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.cagudeloa.unifavores.ui.messages.MessagesFragment"
+        android:label="MessagesFragment"
+        tools:layout="@layout/fragment_messages"/>
 </navigation>
