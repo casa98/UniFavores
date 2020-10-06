@@ -44,13 +44,14 @@ class AddFavorFragment : Fragment() {
                 val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
                 val hashMap: HashMap<String, String> = HashMap()
                 hashMap["user"] = user
+                hashMap["assignedUser"] = ""
                 hashMap["favorTitle"] = title
                 hashMap["favorDescription"] = description
                 hashMap["creationDate"] = convertLongToDateString(System.currentTimeMillis())
                 hashMap["status"] = "0"
                 databaseReference.push().setValue(hashMap).addOnCompleteListener(requireActivity()){ result ->
                     if(result.isSuccessful){
-                        Toast.makeText(requireContext(), "Creado exitosamente", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), " Favor creado exitosamente", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.navigation_home)
                     }else{
                         Toast.makeText(requireContext(), "Este favor no se creó\nIntenta de nuevo", Toast.LENGTH_LONG).show()

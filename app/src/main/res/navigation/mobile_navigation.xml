@@ -35,4 +35,14 @@
         android:name="com.cagudeloa.unifavores.ui.profile.ProfileFragment"
         android:label="Perfil"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/incompletFragment"
+        android:name="com.cagudeloa.unifavores.ui.IncompleteFavorsFragment"
+        android:label="Favores sin completar"
+        tools:layout="@layout/fragment_incomplete_favors" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.cagudeloa.unifavores.ui.StatisticsFragment"
+        android:label="Eestadísticas globales"
+        tools:layout="@layout/fragment_statistics" />
 </navigation>

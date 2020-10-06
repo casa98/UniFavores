@@ -17,6 +17,9 @@ import com.cagudeloa.unifavores.databinding.FragmentFavorDetailsBinding
 import com.cagudeloa.unifavores.model.Favor
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -76,14 +79,15 @@ class FavorDetailsFragment : Fragment() {
                         Log.i("FAVOR ID", favorID)
                         // Change this snapshot (favor) by making status = -1 (means assigned)
                         val hashMap: HashMap<String, Any> = HashMap()
+                        hashMap["assignedUser"] = FirebaseAuth.getInstance().currentUser!!.uid
                         hashMap["status"] = "-1"
                         databaseReference.child(favorID).updateChildren(hashMap)
                             .addOnSuccessListener {
-                                // Show a dialog rather, (in future)
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Chatea con ${binding.favorCreatorText.text} yendo al Menú",
-                                    Toast.LENGTH_LONG
+                                Snackbar.make(
+                                    view,
+                                    "Revisa este favor y chatea con ${binding.favorCreatorText.text} yendo al Menú",
+                                    Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null
                                 ).show()
                                 binding.doFavorButton.visibility = View.GONE
                             }
