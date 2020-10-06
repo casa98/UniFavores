@@ -1,5 +1,6 @@
 package com.cagudeloa.unifavores.ui.details
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -14,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentFavorDetailsBinding
 import com.cagudeloa.unifavores.model.Favor
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -59,15 +62,34 @@ class FavorDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.doFavorButton.setOnClickListener {
             // Add favor to the current user
-            Log.i("MESSAGE", "Show dialog telling to go to Chats in Menu to chat with the person you're doing the favor")
             // Go to firebase and change favor status from 0 to -1 (assigned)
             // Get favorID:
             val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
-            databaseReference.orderByChild("user")
-                .equalTo(favor.user).addListenerForSingleValueEvent(object : ValueEventListener{
+            // Not the best query but I cannot use userID (because a user possibly create more than one favor)
+            // This will fail if two user create a favor with same description
+            // Why this? Firebase doesn't support multiple queries
+            databaseReference.orderByChild("favorDescription")
+                .equalTo(favor.favorDescription).addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
+                        Log.i("FAVOR DATA", snapshot.toString())
                         val favorID = snapshot.children.iterator().next().key.toString()
-                        // TODO Delete favor whose ID is {favorID}
+                        Log.i("FAVOR ID", favorID)
+                        // Change this snapshot (favor) by making status = -1 (means assigned)
+                        val hashMap: HashMap<String, Any> = HashMap()
+                        hashMap["status"] = "-1"
+                        databaseReference.child(favorID).updateChildren(hashMap)
+                            .addOnSuccessListener {
+                                // Show a dialog rather, (in future)
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Chatea con ${binding.favorCreatorText.text} yendo al Menú",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                binding.doFavorButton.visibility = View.GONE
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(requireContext(), "No pudimos asignarte este favor, sorry :c", Toast.LENGTH_SHORT).show()
+                            }
                     }
 
                     override fun onCancelled(error: DatabaseError) {}
