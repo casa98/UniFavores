@@ -12,14 +12,19 @@ import kotlinx.android.synthetic.main.incomplete_favor_item.view.*
 
 class IncompleteFavorsAdapter(
     private val context: Context,
-    //private val itemClickListener: FavorsAdapter.OnItemClickListener,
+    private val itemClickListener: IncompleteFavorsAdapter.OnItemClickListener,
     private val favor: ArrayList<Favor>
 ): RecyclerView.Adapter<BaseViewHolder<*>>() {
+
+    interface OnItemClickListener{
+        fun onItemClick(favor: Favor)
+    }
 
     inner class IncompleteFavorViewHolder(itemView: View): BaseViewHolder<Favor>(itemView){
         override fun bind(item: Favor, position: Int) {
             itemView.favorTitleText.text = item.favorTitle
             itemView.favorDescriptionText.text = item.favorDescription
+            itemView.setOnClickListener { itemClickListener.onItemClick(item) }
         }
 
     }

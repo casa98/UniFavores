@@ -15,7 +15,7 @@
     <group android:id="@+id/part_2">
         <item
             android:id="@+id/incompletFragment"
-            android:title="Favores incompletos"
+            android:title="Favores sin completar"
             android:icon="@drawable/ic_list"/>
 
         <item
@@ -23,4 +23,12 @@
             android:title="Estadísticas"
             android:icon="@drawable/ic_bar_chart"/>
     </group>
+
+    <group android:id="@+id/grupo_3">
+        <item
+            android:id="@+id/chatsFragment"
+            android:icon="@drawable/ic_chat"
+            android:title="Chat con voluntarios" />
+    </group>
+
 </menu>

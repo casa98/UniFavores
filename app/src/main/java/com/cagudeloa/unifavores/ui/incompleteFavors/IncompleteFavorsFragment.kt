@@ -1,5 +1,7 @@
 package com.cagudeloa.unifavores.ui.incompleteFavors
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,7 +22,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_favors.*
 import kotlinx.android.synthetic.main.fragment_incomplete_favors.*
 
-class IncompleteFavorsFragment : Fragment() {
+class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClickListener {
 
     private var favors = ArrayList<Favor>()
     private lateinit var auth: FirebaseAuth
@@ -50,9 +52,8 @@ class IncompleteFavorsFragment : Fragment() {
                     favors.add(favor!!)
                 }
                 favors.reverse()
-                Log.i("MY PENDING FAVORS", favors.toString())
                 // Setup adapter
-                val userAdapter = IncompleteFavorsAdapter(requireContext(), /*this@IncompleteFavorsFragment,*/ favors)
+                val userAdapter = IncompleteFavorsAdapter(requireContext(), this@IncompleteFavorsFragment, favors)
                 if( incompleteFavorsRecyclerView!=null)
                     incompleteFavorsRecyclerView.adapter = userAdapter
             }
@@ -66,5 +67,27 @@ class IncompleteFavorsFragment : Fragment() {
 
     private fun setupRecyclerView(){
         incompleteFavorsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+    }
+
+    override fun onItemClick(favor: Favor) {
+        Log.i("CLICKED", favor.toString())
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("¿Qué deseas hacer?")
+        builder.setItems(arrayOf("Marcar como completado","Chatear"), DialogInterface.OnClickListener { _, i ->
+            if (i == 0){
+                // Show a confirmation dialog
+                val secondBuilder = AlertDialog.Builder(requireContext())
+                secondBuilder.setTitle("¿Has completado este favor?")
+                secondBuilder.setNegativeButton("No", null)
+                secondBuilder.setPositiveButton("Sí") { _, _ ->
+                    // TODO Go db and update this favor to status = 1 (completed)
+                    Log.i("COMPLETED", "Update data in DB")
+                }
+                secondBuilder.show()
+            }else{
+                Log.i("CLICKED", "Take me to chat with this.favor requester")
+            }
+
+        }).show()
     }
 }
