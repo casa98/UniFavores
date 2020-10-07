@@ -27,7 +27,7 @@ class MessagesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /**
-         * TODO Get here via arguments the favor creator ID,
+         * Get here via arguments the favor creator ID,
          * so that the conversation will be with it and current user
         */
         requireArguments().let {

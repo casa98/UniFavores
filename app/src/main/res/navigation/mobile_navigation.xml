@@ -34,7 +34,11 @@
         android:id="@+id/incompletFragment"
         android:name="com.cagudeloa.unifavores.ui.incompleteFavors.IncompleteFavorsFragment"
         android:label="Favores sin completar"
-        tools:layout="@layout/fragment_incomplete_favors" />
+        tools:layout="@layout/fragment_incomplete_favors" >
+        <action
+            android:id="@+id/action_incompletFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="com.cagudeloa.unifavores.ui.StatisticsFragment"
@@ -45,4 +49,7 @@
         android:name="com.cagudeloa.unifavores.ui.chat.ChatsFragment"
         android:label="Conversaciones"
         tools:layout="@layout/fragment_chats" />
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.cagudeloa.unifavores.ui.chat.MessagesFragment" />
 </navigation>

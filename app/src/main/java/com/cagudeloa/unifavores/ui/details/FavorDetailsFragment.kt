@@ -68,13 +68,14 @@ class FavorDetailsFragment : Fragment() {
             // Go to firebase and change favor status from 0 to -1 (assigned)
             // Get favorID:
             val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
-            // Not the best query but I cannot use userID (because a user possibly create more than one favor)
-            // This will fail if two user create a favor with same description
-            // Why this? Firebase doesn't support multiple queries
+            /**
+             * TODO Not the best query but I cannot use userID (because a user possibly create more than one favor),
+             * TODO This will fail (using favorDescription as key) if two users create a favor with same description
+             * TODO Why this? Firebase doesn't support multiple queries. Find a solution
+             */
             databaseReference.orderByChild("favorDescription")
                 .equalTo(favor.favorDescription).addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        Log.i("FAVOR DATA", snapshot.toString())
                         val favorID = snapshot.children.iterator().next().key.toString()
                         Log.i("FAVOR ID", favorID)
                         // Change this snapshot (favor) by making status = -1 (means assigned)

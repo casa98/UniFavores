@@ -9,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.model.Favor
 import com.cagudeloa.unifavores.ui.favors.FavorsAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -43,19 +45,21 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser!!.uid
         databaseReference.orderByChild("assignedUser")
-            .equalTo(currentUser).addListenerForSingleValueEvent(object : ValueEventListener {
+            .equalTo(currentUser).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Reload data
                 favors.clear()
                 for (dataSnapshot: DataSnapshot in snapshot.children){
                     val favor = dataSnapshot.getValue(Favor::class.java)
-                    favors.add(favor!!)
+                    if(favor!!.status == "-1")
+                        favors.add(favor)
                 }
                 favors.reverse()
                 // Setup adapter
-                val userAdapter = IncompleteFavorsAdapter(requireContext(), this@IncompleteFavorsFragment, favors)
-                if( incompleteFavorsRecyclerView!=null)
+                if(isAdded){
+                    val userAdapter = IncompleteFavorsAdapter(requireContext(), this@IncompleteFavorsFragment, favors)
                     incompleteFavorsRecyclerView.adapter = userAdapter
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -73,21 +77,46 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
         Log.i("CLICKED", favor.toString())
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("¿Qué deseas hacer?")
-        builder.setItems(arrayOf("Marcar como completado","Chatear"), DialogInterface.OnClickListener { _, i ->
+        builder.setItems(arrayOf("  Marcar como completado","  Chatear"), DialogInterface.OnClickListener { _, i ->
             if (i == 0){
                 // Show a confirmation dialog
                 val secondBuilder = AlertDialog.Builder(requireContext())
-                secondBuilder.setTitle("¿Has completado este favor?")
+                secondBuilder.setTitle("¿Seguro que has completado este favor?\n")
                 secondBuilder.setNegativeButton("No", null)
                 secondBuilder.setPositiveButton("Sí") { _, _ ->
-                    // TODO Go db and update this favor to status = 1 (completed)
-                    Log.i("COMPLETED", "Update data in DB")
+                    // Go db and update this favor to status = 1 (completed)
+                    updateStatusInDatabase(favor)
                 }
                 secondBuilder.show()
             }else{
-                Log.i("CLICKED", "Take me to chat with this.favor requester")
+                // Take me to chat with ${favor.user}
+                val bundle = Bundle()
+                bundle.putString("user", favor.user)
+                findNavController().navigate(R.id.action_incompletFragment_to_messagesFragment, bundle)
             }
 
         }).show()
+    }
+
+    private fun updateStatusInDatabase(favor: Favor) {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
+            databaseReference.orderByChild("favorDescription")
+            .equalTo(favor.favorDescription).addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.i("FAVOR DATA", snapshot.toString())
+                    val favorID = snapshot.children.iterator().next().key.toString()
+                    val hashMap: HashMap<String, Any> = HashMap()
+                    hashMap["status"] = "1"     // Means it was completed
+                    /**
+                     * TODO WHY UPDATE AND NO DELETE?
+                     * TODO I plan to tell user requester to reconfirm Favor was really completed, then delete it from DB
+                     */
+                    databaseReference.child(favorID).updateChildren(hashMap)
+
+                    // TODO Update current user karma (score)
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
     }
 }
