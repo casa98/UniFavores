@@ -1,5 +1,6 @@
 package com.cagudeloa.unifavores.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -12,12 +13,15 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
+import com.cagudeloa.unifavores.firebase.FirebaseService
 import com.cagudeloa.unifavores.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
@@ -29,6 +33,12 @@ class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         setHasOptionsMenu(true)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
+        /*
+        FirebaseService.sharedPreferences = requireContext().getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            FirebaseService.token = it.token
+        }
+        */
         return root
     }
 
@@ -54,6 +64,7 @@ class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
 
     private fun getUsersList(){
         val firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        //FirebaseMessaging.getInstance().subscribeToTopic("/topics/${firebaseUser.uid}")
         val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         databaseReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -61,14 +72,13 @@ class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
                 userList.clear()
                 for (dataSnapshot: DataSnapshot in snapshot.children){
                     val user = dataSnapshot.getValue(User::class.java)
-                    if(user!!.uid != firebaseUser.uid)
+                    if (user!!.uid != firebaseUser.uid)
                         userList.add(user)
-
-                    if(isAdded){
-                        // Setup adapter
-                        val userAdapter = UserAdapter(requireContext(), this@HomeFragment, userList)
-                        myRecyclerView.adapter = userAdapter
-                    }
+                }
+                if(isAdded){
+                    // Setup adapter
+                    val userAdapter = UserAdapter(requireContext(), this@HomeFragment, userList)
+                    myRecyclerView.adapter = userAdapter
                 }
             }
 
@@ -84,11 +94,11 @@ class HomeFragment : Fragment(), UserAdapter.OnItemClickListener {
         myRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
     }
 
-    override fun onItemClick(user: String) {
+    override fun onItemClick(user: User) {
         // Navigate to Chat fragment
         // This is triggered when an item is clicked
         val bundle = Bundle()
-        bundle.putString("user", user)
+        bundle.putParcelable("user", user)
         findNavController().navigate(R.id.action_navigation_home_to_chatFragment, bundle)
     }
 }

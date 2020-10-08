@@ -19,7 +19,7 @@ class UserAdapter(private val context: Context,
                   private val userList: ArrayList<User>): RecyclerView.Adapter<UserAdapter.ViewHolder> (){
 
     interface OnItemClickListener{
-        fun onItemClick(user: String)
+        fun onItemClick(user: User)
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -39,7 +39,7 @@ class UserAdapter(private val context: Context,
         holder.username.text = user.username
         holder.image.setImageResource(R.drawable.ic_person)
         holder.text.text = user.message
-        holder.userLayout.setOnClickListener { itemClickListener.onItemClick(user.uid) }
+        holder.userLayout.setOnClickListener { itemClickListener.onItemClick(user) }
     }
 
     override fun getItemCount(): Int {

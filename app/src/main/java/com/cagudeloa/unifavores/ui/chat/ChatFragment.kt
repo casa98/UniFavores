@@ -6,36 +6,45 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cagudeloa.unifavores.R
+import com.cagudeloa.unifavores.RetrofitInstance
 import com.cagudeloa.unifavores.databinding.FragmentChatBinding
 import com.cagudeloa.unifavores.model.Chat
+import com.cagudeloa.unifavores.model.NotificationData
+import com.cagudeloa.unifavores.model.PushNotification
 import com.cagudeloa.unifavores.model.User
 import com.cagudeloa.unifavores.ui.home.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ChatFragment : Fragment() {
 
-    private lateinit var userId: String
+    private lateinit var user: User
     private lateinit var binding: FragmentChatBinding
     private var firebaseUser: FirebaseUser? = null
     private var databaseReference: DatabaseReference? = null
     var chatList = ArrayList<Chat>()
+    private var topic = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireArguments().let {
-            userId = it.getString("user")!!
+            user = it.getParcelable("user")!!
         }
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
         databaseReference!!.addValueEventListener(object : ValueEventListener{
          override fun onDataChange(snapshot: DataSnapshot) {
             val user = snapshot.getValue(User::class.java)
@@ -59,12 +68,19 @@ class ChatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // Setup RecyclerView
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        readMessage(firebaseUser!!.uid, userId)
+        readMessage(firebaseUser!!.uid, user.uid)
         binding.sendMessageButton.setOnClickListener{
             val message = binding.messageEdit.text.toString()
             if(message.isNotEmpty()){
-                sendMessage(firebaseUser!!.uid, userId, message)
+                sendMessage(firebaseUser!!.uid, user.uid, message)
                 binding.messageEdit.setText("")
+                /*
+                topic  = "/topics/$user.uid"
+                PushNotification(NotificationData(user.username, message), topic)
+                    .also {notification ->
+                        sendNotification( notification)
+                    }
+                 */
             }
         }
     }
@@ -107,6 +123,19 @@ class ChatFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.postNotification(notification)
+            if(response.isSuccessful){
+                Toast.makeText(requireContext(), "Response: ${Gson().toJson(response)}", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(requireContext(), response.errorBody().toString(), Toast.LENGTH_LONG).show()
+            }
+        }catch (e: Exception){
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+        }
     }
 
 }
