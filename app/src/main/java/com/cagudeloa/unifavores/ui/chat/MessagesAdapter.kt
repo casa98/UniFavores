@@ -14,21 +14,21 @@ import com.google.firebase.auth.FirebaseUser
 class MessagesAdapter(
     private val context: Context,
     private val chatList: ArrayList<Chat>
-): RecyclerView.Adapter<MessagesAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
 
     private val messageTypeLeft = 0
     private val messageTypeRight = 1
     private var firebaseUser: FirebaseUser? = null
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val chatMessage: TextView = view.findViewById(R.id.chatMessage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        if(viewType == messageTypeRight){
+        if (viewType == messageTypeRight) {
             val view = LayoutInflater.from(context).inflate(R.layout.chat_item_right, parent, false)
             return ViewHolder(view)
-        }else{
+        } else {
             val view = LayoutInflater.from(context).inflate(R.layout.chat_item_left, parent, false)
             return ViewHolder(view)
         }
@@ -45,9 +45,9 @@ class MessagesAdapter(
 
     override fun getItemViewType(position: Int): Int {
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        if(chatList[position].senderId == firebaseUser!!.uid){
+        if (chatList[position].senderId == firebaseUser!!.uid) {
             return messageTypeRight
-        }else{
+        } else {
             return messageTypeLeft
         }
     }

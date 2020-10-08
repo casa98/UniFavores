@@ -1,12 +1,12 @@
 package com.cagudeloa.unifavores.ui.chat
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentMessagesBinding
@@ -15,6 +15,7 @@ import com.cagudeloa.unifavores.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil
 
 class MessagesFragment : Fragment() {
 
@@ -29,7 +30,7 @@ class MessagesFragment : Fragment() {
         /**
          * Get here via arguments the favor creator ID,
          * so that the conversation will be with it and current user
-        */
+         */
         requireArguments().let {
             userId = it.getString("user")!!
         }
@@ -37,7 +38,7 @@ class MessagesFragment : Fragment() {
         // To load messages when the chat is open
         firebaseUser = FirebaseAuth.getInstance().currentUser
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
-        databaseReference!!.addValueEventListener(object : ValueEventListener{
+        databaseReference!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
                 (activity as AppCompatActivity).supportActionBar?.title = user!!.username
@@ -50,7 +51,11 @@ class MessagesFragment : Fragment() {
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_messages, container, false)
         return binding.root
@@ -59,18 +64,19 @@ class MessagesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Setup RecyclerView
-        binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.chatRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         readMessage(firebaseUser!!.uid, userId)
-        binding.sendMessageButton.setOnClickListener{
+        binding.sendMessageButton.setOnClickListener {
             val message = binding.messageEdit.text.toString()
-            if(message.isNotEmpty()){
+            if (message.isNotEmpty()) {
                 sendMessage(firebaseUser!!.uid, userId, message)
                 binding.messageEdit.setText("")
             }
         }
     }
 
-    private fun sendMessage(senderId: String, receiverId: String, message: String){
+    private fun sendMessage(senderId: String, receiverId: String, message: String) {
         val databaseReference: DatabaseReference? = FirebaseDatabase.getInstance().getReference()
 
         val hashMap: HashMap<String, String> = HashMap()
@@ -80,31 +86,37 @@ class MessagesFragment : Fragment() {
         databaseReference!!.child("Chat").push().setValue(hashMap)
     }
 
-    private fun readMessage(senderId: String, receiverId: String){
+    private fun readMessage(senderId: String, receiverId: String) {
         // All this to show new messages when db is changed
         databaseReference = FirebaseDatabase.getInstance().getReference("Chat")
         databaseReference!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 chatList.clear()
-                for (dataSnapshot: DataSnapshot in snapshot.children){
+                for (dataSnapshot: DataSnapshot in snapshot.children) {
                     val chat = dataSnapshot.getValue(Chat::class.java)
-                    if(chat!!.senderId == senderId && chat.receiverId == receiverId ||
-                        chat.senderId == receiverId && chat.receiverId == senderId) {
+                    if (chat!!.senderId == senderId && chat.receiverId == receiverId ||
+                        chat.senderId == receiverId && chat.receiverId == senderId
+                    ) {
                         chatList.add(chat)
                     }
                 }
 
                 // Setup adapter
-                if(isAdded){
+                if (isAdded) {
                     val chatAdapter = MessagesAdapter(requireContext(), chatList)
                     binding.apply {
                         chatRecyclerView.adapter = chatAdapter
-                        chatRecyclerView.scrollToPosition(chatAdapter.itemCount-1)
+                        chatRecyclerView.scrollToPosition(chatAdapter.itemCount - 1)
                     }
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        UIUtil.hideKeyboard(requireActivity())
     }
 }

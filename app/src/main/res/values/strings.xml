@@ -1,27 +1,23 @@
 <resources>
     <string name="app_name">UniFavores</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
 
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="your_email">Your email</string>
-    <string name="enter_your_name">Enter your name</string>
-    <string name="welcome_please_enter_the_fields">Welcome! Please enter the fields</string>
-    <string name="confirm_password">Confirm password</string>
-    <string name="register">Register</string>
-    <string name="log_in_instead">Login instead</string>
-    <string name="login">Login</string>
-    <string name="new_user_register_now">New user? Register now</string>
-    <string name="add_favor">Add favor</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="your_email">Tu correo</string>
+    <string name="enter_your_name">Escribe tu nombre</string>
+    <string name="confirm_password">Confirma contraseña</string>
+    <string name="register">Regístrate</string>
+    <string name="log_in_instead">Ya tengo una cuenta</string>
+    <string name="login">Ingresar</string>
+    <string name="new_user_register_now">¿Nuevo aquí? Regístrate</string>
+    <string name="add_favor">Agregar favor</string>
     <string name="llena_los_siguientes_campos">Llena los siguientes campos:</string>
     <string name="un_titulo_para_tu_favor">Un título para tu favor</string>
     <string name="descripcion">Descripción</string>
     <string name="pedir_favor">Pedir favor</string>
     <string name="favor_pedido_por">Favor pedido por:</string>
     <string name="realizar_favor">realizar favor</string>
-    <string name="type_a_message">Type a message</string>
+    <string name="type_a_message">Mensaje…</string>
     <string name="send_message_button">Send message button</string>
+    <string name="unifavores">UniFavores</string>
 </resources>

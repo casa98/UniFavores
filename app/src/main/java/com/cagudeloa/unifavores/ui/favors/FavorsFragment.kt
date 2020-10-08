@@ -1,7 +1,6 @@
 package com.cagudeloa.unifavores.ui.favors
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -24,7 +23,11 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
     private var favors = ArrayList<Favor>()
     private lateinit var auth: FirebaseAuth
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_favors, container, false)
     }
@@ -48,19 +51,19 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
                 || super.onOptionsItemSelected(item)
     }
 
-    private fun getUsersList(){
+    private fun getUsersList() {
         val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
         // This is not to show the favors made my myself
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser!!.uid
-        databaseReference.addValueEventListener(object : ValueEventListener{
+        databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Reload data
                 favors.clear()
-                for (dataSnapshot: DataSnapshot in snapshot.children){
+                for (dataSnapshot: DataSnapshot in snapshot.children) {
                     val favor = dataSnapshot.getValue(Favor::class.java)
-                    if(favor!!.user != currentUser) {     // Add to favors list, if I didn't request the favor
-                        if(favor.status == "0"){    // It's unassigned
+                    if (favor!!.user != currentUser) {     // Add to favors list, if I didn't request the favor
+                        if (favor.status == "0") {    // It's unassigned
                             favors.add(favor)
                         }
                     }
@@ -68,7 +71,7 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
                 favors.reverse()
                 // Setup adapter
                 val userAdapter = FavorsAdapter(requireContext(), this@FavorsFragment, favors)
-                if( myRecyclerView!=null)
+                if (myRecyclerView != null)
                     myRecyclerView.adapter = userAdapter
             }
 
@@ -79,9 +82,15 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         })
     }
 
-    private fun setupRecyclerView(){
-        myRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        myRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+    private fun setupRecyclerView() {
+        myRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        myRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 
     override fun onItemClick(favor: Favor) {

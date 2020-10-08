@@ -14,13 +14,13 @@ class IncompleteFavorsAdapter(
     private val context: Context,
     private val itemClickListener: IncompleteFavorsAdapter.OnItemClickListener,
     private val favor: ArrayList<Favor>
-): RecyclerView.Adapter<BaseViewHolder<*>>() {
+) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onItemClick(favor: Favor)
     }
 
-    inner class IncompleteFavorViewHolder(itemView: View): BaseViewHolder<Favor>(itemView){
+    inner class IncompleteFavorViewHolder(itemView: View) : BaseViewHolder<Favor>(itemView) {
         override fun bind(item: Favor, position: Int) {
             itemView.favorTitleText.text = item.favorTitle
             itemView.favorDescriptionText.text = item.favorDescription
@@ -30,11 +30,13 @@ class IncompleteFavorsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        return IncompleteFavorViewHolder(LayoutInflater.from(context).inflate(R.layout.incomplete_favor_item, parent, false))
+        return IncompleteFavorViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.incomplete_favor_item, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        if(holder is IncompleteFavorViewHolder)
+        if (holder is IncompleteFavorViewHolder)
             holder.bind(favor[position], position)
     }
 

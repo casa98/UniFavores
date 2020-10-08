@@ -1,25 +1,19 @@
 package com.cagudeloa.unifavores.ui.details
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentFavorDetailsBinding
 import com.cagudeloa.unifavores.model.Favor
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -38,10 +32,11 @@ class FavorDetailsFragment : Fragment() {
         }
     }
 
-    private fun getFavorCreator(binding: FragmentFavorDetailsBinding){
+    private fun getFavorCreator(binding: FragmentFavorDetailsBinding) {
         // [favor.user] tells me who created the current favor, get the username of that user and display it
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(favor.user)
-        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener{
+        val databaseReference =
+            FirebaseDatabase.getInstance().getReference("Users").child(favor.user)
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val favorCreator = snapshot.child("username").value.toString()
                 binding.favorCreatorText.text = favorCreator
@@ -51,9 +46,14 @@ class FavorDetailsFragment : Fragment() {
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         (activity as AppCompatActivity).supportActionBar?.elevation = 0.0F
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favor_details, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_favor_details, container, false)
         getFavorCreator(binding)
         binding.titleFavor.text = favor.favorTitle
         binding.descriptionFavor.text = favor.favorDescription
@@ -74,7 +74,8 @@ class FavorDetailsFragment : Fragment() {
              * TODO Why this? Firebase doesn't support multiple queries. Find a solution
              */
             databaseReference.orderByChild("favorDescription")
-                .equalTo(favor.favorDescription).addListenerForSingleValueEvent(object : ValueEventListener{
+                .equalTo(favor.favorDescription)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val favorID = snapshot.children.iterator().next().key.toString()
                         Log.i("FAVOR ID", favorID)
@@ -87,18 +88,24 @@ class FavorDetailsFragment : Fragment() {
                                 Snackbar.make(
                                     view,
                                     "Revisa este favor y chatea con ${binding.favorCreatorText.text} yendo al Menú",
-                                    Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null
-                                ).show()
+                                    Snackbar.LENGTH_LONG
+                                )
+                                    .setAction(
+                                        "Action", null
+                                    ).show()
                                 binding.doFavorButton.visibility = View.GONE
                             }
                             .addOnFailureListener {
-                                Toast.makeText(requireContext(), "No pudimos asignarte este favor, sorry :c", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "No pudimos asignarte este favor, sorry :c",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                     }
 
                     override fun onCancelled(error: DatabaseError) {}
-            })
+                })
         }
     }
 
