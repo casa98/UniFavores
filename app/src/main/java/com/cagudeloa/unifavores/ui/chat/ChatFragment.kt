@@ -1,11 +1,14 @@
 package com.cagudeloa.unifavores.ui.chat
 
+import android.content.Context
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -28,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil
 
 class ChatFragment : Fragment() {
 
@@ -36,6 +40,7 @@ class ChatFragment : Fragment() {
     private var firebaseUser: FirebaseUser? = null
     private var databaseReference: DatabaseReference? = null
     var chatList = ArrayList<Chat>()
+    private lateinit var imm: InputMethodManager
     private var topic = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +48,8 @@ class ChatFragment : Fragment() {
         requireArguments().let {
             user = it.getParcelable("user")!!
         }
+        // I'll use it to hide keyboard when layout is tapped or fragment is destroyed
+        imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         firebaseUser = FirebaseAuth.getInstance().currentUser
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
         databaseReference!!.addValueEventListener(object : ValueEventListener{
@@ -69,6 +76,11 @@ class ChatFragment : Fragment() {
         // Setup RecyclerView
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         readMessage(firebaseUser!!.uid, user.uid)
+
+        binding.chatRecyclerView.setOnClickListener {
+            Log.i("TAPPED", "LA BANDA PIRATA")
+        }
+
         binding.sendMessageButton.setOnClickListener{
             val message = binding.messageEdit.text.toString()
             if(message.isNotEmpty()){
@@ -136,6 +148,10 @@ class ChatFragment : Fragment() {
         }catch (e: Exception){
             Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        UIUtil.hideKeyboard(requireActivity())
     }
 
 }
