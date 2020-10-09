@@ -70,9 +70,10 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
                 }
                 favors.reverse()
                 // Setup adapter
-                val userAdapter = FavorsAdapter(requireContext(), this@FavorsFragment, favors)
-                if (myRecyclerView != null)
+                if (myRecyclerView != null) {
+                    val userAdapter = FavorsAdapter(requireContext(), this@FavorsFragment, favors)
                     myRecyclerView.adapter = userAdapter
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

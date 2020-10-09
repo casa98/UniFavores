@@ -69,9 +69,10 @@ class FavorDetailsFragment : Fragment() {
             // Get favorID:
             val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
             /**
-             * TODO Not the best query but I cannot use userID (because a user possibly create more than one favor),
-             * TODO This will fail (using favorDescription as key) if two users create a favor with same description
-             * TODO Why this? Firebase doesn't support multiple queries. Find a solution
+             * TODO
+             * Not the best query but I cannot use userID (because a user possibly create more than one favor),
+             * This will fail (using favorDescription as key) if two users create a favor with same description
+             * Why this? Firebase doesn't support multiple queries. Find a solution
              */
             databaseReference.orderByChild("favorDescription")
                 .equalTo(favor.favorDescription)

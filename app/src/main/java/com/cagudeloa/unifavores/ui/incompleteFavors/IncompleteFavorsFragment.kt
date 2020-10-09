@@ -13,11 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.model.Favor
+import com.cagudeloa.unifavores.model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_incomplete_favors.*
 
 class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClickListener {
@@ -93,6 +91,7 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
                     secondBuilder.setPositiveButton("Sí") { _, _ ->
                         // Go db and update this favor to status = 1 (completed)
                         updateStatusInDatabase(favor)
+                        updateUserScore()
                     }
                     secondBuilder.show()
                 } else {
@@ -113,20 +112,36 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
         databaseReference.orderByChild("favorDescription")
             .equalTo(favor.favorDescription).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    Log.i("FAVOR DATA", snapshot.toString())
+                    //Log.i("FAVOR DATA", snapshot.toString())
                     val favorID = snapshot.children.iterator().next().key.toString()
                     val hashMap: HashMap<String, Any> = HashMap()
-                    hashMap["status"] = "1"     // Means it was completed
+                    hashMap["status"] = "1"     // Means it was completed (check Model)
                     /**
-                     * TODO WHY UPDATE AND NO DELETE?
-                     * TODO I plan to tell user requester to reconfirm Favor was really completed, then delete it from DB
+                     * TODO
+                     * WHY UPDATE AND NO DELETE?
+                     * I plan to tell user requester to reconfirm Favor was really completed, then delete it from DB
                      */
                     databaseReference.child(favorID).updateChildren(hashMap)
-
-                    // TODO Update current user karma (score)
                 }
 
                 override fun onCancelled(error: DatabaseError) {}
             })
+    }
+
+    private fun updateUserScore(){
+        // Update current user karma (score)
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+            .child(auth.currentUser!!.uid)
+        databaseReference.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val currentUserData = snapshot.getValue(User::class.java)
+                val hashMap: HashMap<String, Any> = HashMap()
+                hashMap["score"] = currentUserData!!.score + 2
+                databaseReference.updateChildren(hashMap)
+                Toast.makeText(requireContext(), "Has mejorado tu puntaje :)", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 }

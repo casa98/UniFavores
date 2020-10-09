@@ -56,10 +56,11 @@ class RegisterActivity : AppCompatActivity() {
 
                     databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid)
                     // I'll save some data here to then, save in on db
-                    val hashMap: HashMap<String, String> = HashMap()
+                    val hashMap: HashMap<String, Any> = HashMap()
                     hashMap["uid"] = uid
                     hashMap["username"] = username
                     hashMap["image"] = ""
+                    hashMap["score"] = 2
                     databaseReference.setValue(hashMap).addOnCompleteListener(this){result ->
                         if(result.isSuccessful){
                             val intent = Intent(this, MainActivity::class.java)

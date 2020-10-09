@@ -32,7 +32,6 @@ class AddFavorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.askFavor.setOnClickListener {
-            // TODO Checks fields are valid
             auth = FirebaseAuth.getInstance()
             val title = binding.favorTitleEdit.text.toString()
             val description = binding.favorDescriptionEdit.text.toString()
