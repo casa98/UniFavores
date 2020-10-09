@@ -13,6 +13,7 @@ import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentAddFavorBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil
 import java.text.SimpleDateFormat
 
 class AddFavorFragment : Fragment() {
@@ -72,5 +73,10 @@ class AddFavorFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     private fun convertLongToDateString(sysTime: Long): String {
         return SimpleDateFormat("MMM-dd  HH:mm").format(sysTime).toString()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        UIUtil.hideKeyboard(requireActivity())
     }
 }

@@ -1,12 +1,13 @@
 package com.cagudeloa.unifavores.ui.favors
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
@@ -39,16 +40,10 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         // Bring data from Firestore and setup adapter
         getUsersList()
 
-    }
+        floatingActionButton.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.addFavor)
+        }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item, requireView().findNavController())
-                || super.onOptionsItemSelected(item)
     }
 
     private fun getUsersList() {

@@ -38,15 +38,13 @@ class MessagesFragment : Fragment() {
         // To load messages when the chat is open
         firebaseUser = FirebaseAuth.getInstance().currentUser
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
-        databaseReference!!.addValueEventListener(object : ValueEventListener {
+        databaseReference!!.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
                 (activity as AppCompatActivity).supportActionBar?.title = user!!.username
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
 
         })
     }
