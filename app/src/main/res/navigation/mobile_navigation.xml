@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/addFavor"
-        android:name="com.cagudeloa.unifavores.ui.AddFavorFragment"
+        android:name="com.cagudeloa.unifavores.ui.addfavor.AddFavorFragment"
         android:label="Pide un favor"
         tools:layout="@layout/fragment_add_favor" />
     <fragment

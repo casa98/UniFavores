@@ -27,7 +27,6 @@ class FavorsAdapter(
             itemView.favorDate.text = item.creationDate
             itemView.setOnClickListener { itemClickListener.onItemClick(item) }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {

@@ -27,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <EditText
+                android:autofillHints="@string/type_a_message"
                 android:id="@+id/messageEdit"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -36,7 +37,7 @@
                 android:layout_marginBottom="6dp"
                 android:background="@drawable/bg_type_message"
                 android:hint="@string/type_a_message"
-                android:inputType="textPersonName"
+                android:inputType="textCapSentences"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"

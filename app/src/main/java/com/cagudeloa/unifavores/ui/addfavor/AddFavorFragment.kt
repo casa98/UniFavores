@@ -1,8 +1,6 @@
-package com.cagudeloa.unifavores.ui
+package com.cagudeloa.unifavores.ui.addfavor
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +12,6 @@ import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.model.Favor
 import kotlinx.android.synthetic.main.fragment_add_favor.*
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil
-import java.text.SimpleDateFormat
 
 class AddFavorFragment : Fragment() {
 
@@ -30,14 +27,17 @@ class AddFavorFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        Log.i("Activity created", "Hello")
         super.onActivityCreated(savedInstanceState)
         askFavor.setOnClickListener {
             val title = favorTitleEdit.text.toString().trim()
             val description = favorDescriptionEdit.text.toString().trim()
             val location = favorLocationEdit.text.toString().trim()
             if (title.isEmpty() || description.isEmpty() || location.isEmpty()) {
-                Toast.makeText(requireContext(), "Todos los campos son requeridos", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    requireContext(),
+                    "Todos los campos son requeridos",
+                    Toast.LENGTH_LONG
+                )
                     .show()
                 return@setOnClickListener
             } else {

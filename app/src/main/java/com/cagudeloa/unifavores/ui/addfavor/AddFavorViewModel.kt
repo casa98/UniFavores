@@ -1,4 +1,4 @@
-package com.cagudeloa.unifavores.ui
+package com.cagudeloa.unifavores.ui.addfavor
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
