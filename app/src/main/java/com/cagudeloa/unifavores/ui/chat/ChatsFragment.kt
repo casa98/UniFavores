@@ -1,12 +1,13 @@
 package com.cagudeloa.unifavores.ui.chat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentChatsBinding
 import com.cagudeloa.unifavores.model.Favor
@@ -17,6 +18,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_chats.*
 
 class ChatsFragment : Fragment() {
 
@@ -31,35 +33,54 @@ class ChatsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chats, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        getUsersList()
+    }
+
+    private fun getUsersList() {
         /**
          * TODO
-         * Go Favors in db, check all favors where [assignedUser] == [currentUser]  (that's the query)
-         * Then check [user] of the returned value, you'll get some IDs, those are the users you currently have chats with
+         * Go Favors in db, check all favors where {user} == {currentUser}  (that's the query)
+         * Then check {assignedUser} of the returned value, you'll get some IDs, those are the users you currently have chats with
          */
 
         currentUser = FirebaseAuth.getInstance().currentUser!!
         val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
-        databaseReference.orderByChild("assignedUser")
+        databaseReference.orderByChild("user")
             .equalTo(currentUser.uid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     chatsWith.clear()
                     for (dataSnapshot: DataSnapshot in snapshot.children) {
                         val favor = dataSnapshot.getValue(Favor::class.java)
-                        if(favor!!.status.toInt() == -1)
-                            chatsWith.add(favor.user)
+                        //Log.i("ALL", favor.toString())
+                        if (favor!!.status.toInt() == -1) {
+                            chatsWith.add(favor.assignedUser)
+                        }
                     }
-                    // Search for chatsWith (Users) in users db (I want name)
-                    val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
-                        .addListenerForSingleValueEvent(object : ValueEventListener{
+                    chatsWith.distinct()
+                    //Log.i("USERS MAKING ME FAVORS (ID)", chatsWith.toString())
+                    // Search for chatsWith (Users) in users db (I want their names)
+                    FirebaseDatabase.getInstance().getReference("Users")
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
-                                for (dataSnapshot: DataSnapshot in snapshot.children){
+                                for (dataSnapshot: DataSnapshot in snapshot.children) {
                                     val user = dataSnapshot.getValue((User::class.java))
-                                    if(chatsWith.contains(user!!.uid))
+                                    if (chatsWith.contains(user!!.uid))
                                         users.add(user)
                                 }
                                 // TODO Create RecyclerView with users in users arraylist
-                                Log.i("USERS TO TALK TO", users.toString())
+                                //Log.i("USERS MAKING ME FAVORS (names)", users.toString())
+                                users.reverse()
+                                // Send it to the RecyclerView
+                                if (isAdded) {
+                                    val chatsAdapter = ChatsAdapter(requireContext(), users)
+                                    chatsRecyclerView.adapter = chatsAdapter
+                                }
                             }
 
                             override fun onCancelled(error: DatabaseError) {}
@@ -68,7 +89,16 @@ class ChatsFragment : Fragment() {
 
                 override fun onCancelled(error: DatabaseError) {}
             })
+    }
 
-        return binding.root
+    private fun setupRecyclerView() {
+        chatsRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        chatsRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 }

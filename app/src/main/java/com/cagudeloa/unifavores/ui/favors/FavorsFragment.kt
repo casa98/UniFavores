@@ -29,7 +29,6 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_favors, container, false)
     }
 
