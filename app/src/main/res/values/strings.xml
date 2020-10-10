@@ -20,4 +20,6 @@
     <string name="type_a_message">Mensaje…</string>
     <string name="send_message_button">Send message button</string>
     <string name="unifavores">UniFavores</string>
+    <string name="lugar_de_entrega">Lugar de entrega</string>
+    <string name="titulo">Título</string>
 </resources>

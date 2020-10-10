@@ -24,6 +24,7 @@ class IncompleteFavorsAdapter(
         override fun bind(item: Favor, position: Int) {
             itemView.favorTitleText.text = item.favorTitle
             itemView.favorDescriptionText.text = item.favorDescription
+            itemView.favorLocationtext.text = item.favorLocation
             itemView.setOnClickListener { itemClickListener.onItemClick(item) }
         }
 

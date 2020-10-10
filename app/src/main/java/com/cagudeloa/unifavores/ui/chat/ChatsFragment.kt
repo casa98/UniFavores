@@ -52,7 +52,7 @@ class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
         currentUser = FirebaseAuth.getInstance().currentUser!!
         val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
         databaseReference.orderByChild("user")
-            .equalTo(currentUser.uid).addListenerForSingleValueEvent(object : ValueEventListener {
+            .equalTo(currentUser.uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     chatsWith.clear()
                     for (dataSnapshot: DataSnapshot in snapshot.children) {

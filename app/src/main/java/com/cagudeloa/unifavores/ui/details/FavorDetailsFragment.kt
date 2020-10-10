@@ -57,6 +57,7 @@ class FavorDetailsFragment : Fragment() {
         getFavorCreator(binding)
         binding.titleFavor.text = favor.favorTitle
         binding.descriptionFavor.text = favor.favorDescription
+        binding.locationFavor.text = favor.favorLocation
 
         return binding.root
     }

@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,12 +39,12 @@
             android:paddingBottom="16dp"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            tools:text="La Daniela"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/circleImageView"
-            app:layout_constraintTop_toBottomOf="@+id/labelCreator" />
+            app:layout_constraintTop_toBottomOf="@+id/labelCreator"
+            tools:text="La Daniela" />
 
         <TextView
             android:id="@+id/labelCreator"
@@ -63,29 +64,21 @@
 
         <TextView
             android:id="@+id/titleFavor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            tools:text="Necesito unas copias al 5k"
+            style="@style/second_details_item"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            tools:text="Necesito unas copias al 5k" />
 
         <TextView
             android:id="@+id/descriptionFavor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            tools:text="Estoy a punto de empezar un parcial, el profe es un maldito y no deja que uno salga a sacar las copias, por fi ayudenmeeeee, Edge 1 páginas 56-59. De verdad muchas gracias"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            style="@style/second_details_item"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleFavor" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7"
+            tools:text="Estoy a punto de empezar un parcial, el profe es un maldito y no deja que uno salga a sacar las copias, por fi ayudenmeeeee, Edge 1 páginas 56-59. De verdad muchas gracias" />
 
         <Button
             android:id="@+id/doFavorButton"
@@ -96,5 +89,41 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/locationFavor"
+            style="@style/second_details_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            tools:text="Para entregar en el 5k" />
+
+        <TextView
+            android:id="@+id/textView5"
+            style="@style/main_details_item"
+            android:text="@string/titulo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/textView7"
+            style="@style/main_details_item"
+            android:text="@string/descripcion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleFavor" />
+
+        <TextView
+            android:id="@+id/textView8"
+            style="@style/main_details_item"
+            android:text="@string/lugar_de_entrega"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionFavor" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

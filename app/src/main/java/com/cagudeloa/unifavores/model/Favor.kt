@@ -9,6 +9,7 @@ data class Favor(
     var assignedUser: String = "",
     var favorTitle: String = "Favor title",
     var favorDescription: String = "Favor description",
+    var favorLocation: String = "",
     val creationDate: String = "",
     var status: String = "0"
     /**
