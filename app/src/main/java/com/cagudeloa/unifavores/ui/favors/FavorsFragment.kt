@@ -42,7 +42,7 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         super.onActivityCreated(savedInstanceState)
         viewModel.fetchFavors()
         viewModel.favors.observe(viewLifecycleOwner, { favorsList ->
-            if (myRecyclerView != null) {
+            if (isAdded) {
                 val favorsAdapter = FavorsAdapter(requireContext(), this@FavorsFragment, favorsList)
                 myRecyclerView.adapter = favorsAdapter
             }

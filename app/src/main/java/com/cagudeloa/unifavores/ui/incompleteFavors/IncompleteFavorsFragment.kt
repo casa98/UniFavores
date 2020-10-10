@@ -3,72 +3,50 @@ package com.cagudeloa.unifavores.ui.incompleteFavors
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.model.Favor
-import com.cagudeloa.unifavores.model.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_incomplete_favors.*
 
 class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClickListener {
 
-    private var favors = ArrayList<Favor>()
-    private lateinit var auth: FirebaseAuth
+    private lateinit var viewModel: IncompleteFavorsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProvider(this).get(IncompleteFavorsViewModel::class.java)
         return inflater.inflate(R.layout.fragment_incomplete_favors, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.fetchIncompleteFavors()
+        viewModel.favors.observe(viewLifecycleOwner, { incompleteFavorsList ->
+            if (isAdded) {
+                val incompleteFavorsAdapter =
+                    IncompleteFavorsAdapter(
+                        requireContext(),
+                        this@IncompleteFavorsFragment,
+                        incompleteFavorsList
+                    )
+                incompleteFavorsRecyclerView.adapter = incompleteFavorsAdapter
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        getUsersList()
-    }
-
-    private fun getUsersList() {
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
-        // This is not to show the favors made my myself
-        auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser!!.uid
-        databaseReference.orderByChild("assignedUser")
-            .equalTo(currentUser).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    // Reload data
-                    favors.clear()
-                    for (dataSnapshot: DataSnapshot in snapshot.children) {
-                        val favor = dataSnapshot.getValue(Favor::class.java)
-                        if (favor!!.status == "-1")
-                            favors.add(favor)
-                    }
-                    favors.reverse()
-                    // Setup adapter
-                    if (isAdded) {
-                        val userAdapter = IncompleteFavorsAdapter(
-                            requireContext(),
-                            this@IncompleteFavorsFragment,
-                            favors
-                        )
-                        incompleteFavorsRecyclerView.adapter = userAdapter
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), error.message, Toast.LENGTH_LONG).show()
-                }
-
-            })
     }
 
     private fun setupRecyclerView() {
@@ -76,8 +54,12 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
+    /**
+     * Dialogs for when user taps on a pending favor
+     * One for choosing to Chat or Mark favor as completed
+     * Another for confirming the favor completion
+     */
     override fun onItemClick(favor: Favor) {
-        Log.i("CLICKED", favor.toString())
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("¿Qué deseas hacer?")
         builder.setItems(
@@ -90,8 +72,22 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
                     secondBuilder.setNegativeButton("No", null)
                     secondBuilder.setPositiveButton("Sí") { _, _ ->
                         // Go db and update this favor to status = 1 (completed)
-                        updateStatusInDatabase(favor)
-                        updateUserScore()
+                        viewModel.updateStatusInDatabase(favor)
+                        viewModel.result.observe(viewLifecycleOwner, {
+                            if (it == null) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Favor completado",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Error: ${it.message}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        })
                     }
                     secondBuilder.show()
                 } else {
@@ -103,45 +99,6 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
                         bundle
                     )
                 }
-
             }).show()
-    }
-
-    private fun updateStatusInDatabase(favor: Favor) {
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
-        databaseReference.orderByChild("favorDescription")
-            .equalTo(favor.favorDescription).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    //Log.i("FAVOR DATA", snapshot.toString())
-                    val favorID = snapshot.children.iterator().next().key.toString()
-                    val hashMap: HashMap<String, Any> = HashMap()
-                    hashMap["status"] = "1"     // Means it was completed (check Model)
-                    /**
-                     * TODO
-                     * WHY UPDATE AND NO DELETE?
-                     * I plan to tell user requester to reconfirm Favor was really completed, then delete it from DB
-                     */
-                    databaseReference.child(favorID).updateChildren(hashMap)
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-            })
-    }
-
-    private fun updateUserScore(){
-        // Update current user karma (score)
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-            .child(auth.currentUser!!.uid)
-        databaseReference.addListenerForSingleValueEvent(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val currentUserData = snapshot.getValue(User::class.java)
-                val hashMap: HashMap<String, Any> = HashMap()
-                hashMap["score"] = currentUserData!!.score + 2
-                databaseReference.updateChildren(hashMap)
-                Toast.makeText(requireContext(), "Has mejorado tu puntaje :)", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
     }
 }

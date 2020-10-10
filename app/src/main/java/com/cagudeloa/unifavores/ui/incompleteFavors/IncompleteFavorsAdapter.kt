@@ -25,6 +25,7 @@ class IncompleteFavorsAdapter(
             itemView.favorTitleText.text = item.favorTitle
             itemView.favorDescriptionText.text = item.favorDescription
             itemView.favorLocationtext.text = item.favorLocation
+            itemView.favorCreationText.text = item.creationDate
             itemView.setOnClickListener { itemClickListener.onItemClick(item) }
         }
 
