@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
@@ -20,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_chats.*
 
-class ChatsFragment : Fragment() {
+class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentChatsBinding
     private lateinit var currentUser: FirebaseUser
@@ -44,7 +45,6 @@ class ChatsFragment : Fragment() {
 
     private fun getUsersList() {
         /**
-         * TODO
          * Go Favors in db, check all favors where {user} == {currentUser}  (that's the query)
          * Then check {assignedUser} of the returned value, you'll get some IDs, those are the users you currently have chats with
          */
@@ -57,7 +57,6 @@ class ChatsFragment : Fragment() {
                     chatsWith.clear()
                     for (dataSnapshot: DataSnapshot in snapshot.children) {
                         val favor = dataSnapshot.getValue(Favor::class.java)
-                        //Log.i("ALL", favor.toString())
                         if (favor!!.status.toInt() == -1) {
                             chatsWith.add(favor.assignedUser)
                         }
@@ -68,17 +67,18 @@ class ChatsFragment : Fragment() {
                     FirebaseDatabase.getInstance().getReference("Users")
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                users.clear()
                                 for (dataSnapshot: DataSnapshot in snapshot.children) {
                                     val user = dataSnapshot.getValue((User::class.java))
                                     if (chatsWith.contains(user!!.uid))
                                         users.add(user)
                                 }
-                                // TODO Create RecyclerView with users in users arraylist
                                 //Log.i("USERS MAKING ME FAVORS (names)", users.toString())
                                 users.reverse()
                                 // Send it to the RecyclerView
                                 if (isAdded) {
-                                    val chatsAdapter = ChatsAdapter(requireContext(), users)
+                                    val chatsAdapter =
+                                        ChatsAdapter(requireContext(), this@ChatsFragment, users)
                                     chatsRecyclerView.adapter = chatsAdapter
                                 }
                             }
@@ -100,5 +100,11 @@ class ChatsFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
+    }
+
+    override fun onItemClick(user: User) {
+        val bundle = Bundle()
+        bundle.putString("user", user.uid)
+        findNavController().navigate(R.id.messagesFragment, bundle)
     }
 }

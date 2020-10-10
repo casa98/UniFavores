@@ -8,25 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.base.BaseViewHolder
 import com.cagudeloa.unifavores.model.User
-import com.cagudeloa.unifavores.ui.favors.FavorsAdapter
 import kotlinx.android.synthetic.main.chat_item.view.*
 
 class ChatsAdapter(
     private val context: Context,
-    //private val itemClickListener: ChatsAdapter.OnItemClickListener,
+    private val itemClickListener: ChatsAdapter.OnItemClickListener,
     private val chatList: ArrayList<User>,
-): RecyclerView.Adapter<BaseViewHolder<*>>() {
-/*
+) : RecyclerView.Adapter<BaseViewHolder<*>>() {
+
     interface OnItemClickListener {
         fun onItemClick(user: User)
     }
- */
 
-    inner class ChatsViewHolder(itemView: View): BaseViewHolder<User>(itemView){
+    inner class ChatsViewHolder(itemView: View) : BaseViewHolder<User>(itemView) {
         override fun bind(item: User, position: Int) {
             itemView.chatUsernameText.text = item.username
             itemView.chatSecondText.text = item.uid
             itemView.chatUserImage.setImageResource(R.drawable.someone)
+            itemView.setOnClickListener { itemClickListener.onItemClick(item) }
         }
     }
 
@@ -37,7 +36,7 @@ class ChatsAdapter(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        if(holder is ChatsViewHolder)
+        if (holder is ChatsViewHolder)
             holder.bind(chatList[position], position)
     }
 
