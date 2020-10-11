@@ -20,6 +20,11 @@ class IncompleteFavorsViewModel : ViewModel() {
     val favors: LiveData<ArrayList<Favor>>
         get() = _favors
 
+    private val _result = MutableLiveData<Exception?>()
+    val result: LiveData<Exception?>
+        get() = _result
+
+
     fun fetchIncompleteFavors() {
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser!!.uid
@@ -45,12 +50,8 @@ class IncompleteFavorsViewModel : ViewModel() {
             })
     }
 
-    private val _result = MutableLiveData<Exception?>()
-    val result: LiveData<Exception?>
-        get() = _result
-
     fun updateStatusInDatabase(favor: Favor) {
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Favors")
+        val databaseReference = FirebaseDatabase.getInstance().getReference(NODE_FAVORS)
         databaseReference.orderByChild("favorDescription")
             .equalTo(favor.favorDescription).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
