@@ -42,9 +42,15 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         super.onActivityCreated(savedInstanceState)
         viewModel.fetchFavors()
         viewModel.favors.observe(viewLifecycleOwner, { favorsList ->
-            if (isAdded) {
-                val favorsAdapter = FavorsAdapter(requireContext(), this@FavorsFragment, favorsList)
-                myRecyclerView.adapter = favorsAdapter
+            if(!favorsList.isNullOrEmpty()) {
+                fragmentFavorsSecond.visibility = View.GONE
+                if (isAdded) {
+                    val favorsAdapter =
+                        FavorsAdapter(requireContext(), this@FavorsFragment, favorsList)
+                    myRecyclerView.adapter = favorsAdapter
+                }
+            }else{
+                fragmentFavorsSecond.visibility = View.VISIBLE
             }
         })
     }

@@ -32,14 +32,23 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
         super.onActivityCreated(savedInstanceState)
         viewModel.fetchIncompleteFavors()
         viewModel.favors.observe(viewLifecycleOwner, { incompleteFavorsList ->
-            if (isAdded) {
-                val incompleteFavorsAdapter =
-                    IncompleteFavorsAdapter(
-                        requireContext(),
-                        this@IncompleteFavorsFragment,
-                        incompleteFavorsList
-                    )
-                incompleteFavorsRecyclerView.adapter = incompleteFavorsAdapter
+            if (!incompleteFavorsList.isNullOrEmpty()) {
+                incompleteFavorsSecond.visibility = View.GONE
+                incompleteFavorTitle.visibility = View.VISIBLE
+                incompleteFavorsRecyclerView.visibility = View.VISIBLE
+                if (isAdded) {
+                    val incompleteFavorsAdapter =
+                        IncompleteFavorsAdapter(
+                            requireContext(),
+                            this@IncompleteFavorsFragment,
+                            incompleteFavorsList
+                        )
+                    incompleteFavorsRecyclerView.adapter = incompleteFavorsAdapter
+                }
+            } else {
+                incompleteFavorTitle.visibility = View.GONE
+                incompleteFavorsRecyclerView.visibility = View.GONE
+                incompleteFavorsSecond.visibility = View.VISIBLE
             }
         })
     }
