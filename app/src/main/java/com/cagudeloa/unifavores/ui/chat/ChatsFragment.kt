@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentChatsBinding
 import com.cagudeloa.unifavores.model.User
-import kotlinx.android.synthetic.main.fragment_chats.*
 
 class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
 
@@ -41,7 +40,7 @@ class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
                 if (isAdded) {
                     val chatsAdapter =
                         ChatsAdapter(requireContext(), this@ChatsFragment, usersList)
-                    chatsRecyclerView.adapter = chatsAdapter
+                    binding.chatsRecyclerView.adapter = chatsAdapter
                 }
             } else {
                 binding.chatsRecyclerView.visibility = View.GONE
@@ -51,9 +50,9 @@ class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
     }
 
     private fun setupRecyclerView() {
-        chatsRecyclerView.layoutManager =
+        binding.chatsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        chatsRecyclerView.addItemDecoration(
+        binding.chatsRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.VERTICAL

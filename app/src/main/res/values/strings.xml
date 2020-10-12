@@ -28,4 +28,5 @@
     <string name="change_picture">Cambiar foto</string>
     <string name="score_label">Puntaje:</string>
     <string name="sign_out_label">Cerrar sesión</string>
+    <string name="best_users">Usuarios con mayor espíritu solidario:</string>
 </resources>

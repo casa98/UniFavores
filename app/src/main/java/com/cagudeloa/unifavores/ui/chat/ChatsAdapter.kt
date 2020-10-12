@@ -1,5 +1,6 @@
 package com.cagudeloa.unifavores.ui.chat
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -21,9 +22,10 @@ class ChatsAdapter(
     }
 
     inner class ChatsViewHolder(itemView: View) : BaseViewHolder<User>(itemView) {
+        @SuppressLint("SetTextI18n")
         override fun bind(item: User, position: Int) {
             itemView.chatUsernameText.text = item.username
-            itemView.chatSecondText.text = item.uid
+            itemView.chatSecondText.text = item.score.toString() + " puntos"
             itemView.chatUserImage.setImageResource(R.drawable.someone)
             itemView.setOnClickListener { itemClickListener.onItemClick(item) }
         }

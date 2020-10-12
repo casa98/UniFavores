@@ -21,10 +21,6 @@ class ChatsViewModel : ViewModel() {
     val users: LiveData<ArrayList<User>>
         get() = _users
 
-    private val _result = MutableLiveData<Exception?>()
-    val result: LiveData<Exception?>
-        get() = _result
-
 
     fun getUsersList() {
         auth = FirebaseAuth.getInstance().currentUser!!

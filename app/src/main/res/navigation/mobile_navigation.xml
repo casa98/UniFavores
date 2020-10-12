@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="com.cagudeloa.unifavores.ui.StatisticsFragment"
+        android:name="com.cagudeloa.unifavores.ui.statistics.StatisticsFragment"
         android:label="Estadísticas globales"
         tools:layout="@layout/fragment_statistics" />
     <fragment
