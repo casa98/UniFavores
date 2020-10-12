@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_favors" >
         <action
             android:id="@+id/action_navigation_home_to_favorDetailsFragment"
-            app:destination="@id/favorDetailsFragment" />
+            app:destination="@id/favorDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -37,13 +41,17 @@
         tools:layout="@layout/fragment_incomplete_favors" >
         <action
             android:id="@+id/action_incompletFragment_to_messagesFragment"
-            app:destination="@id/messagesFragment" />
+            app:destination="@id/messagesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="com.cagudeloa.unifavores.ui.statistics.StatisticsFragment"
         android:label="Estadísticas globales"
-        tools:layout="@layout/fragment_statistics" />
+        tools:layout="@layout/fragment_statistics"/>
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.cagudeloa.unifavores.ui.chat.ChatsFragment"
