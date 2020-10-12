@@ -56,7 +56,7 @@ class AddFavorFragment : Fragment() {
                     " Favor creado exitosamente",
                     Toast.LENGTH_SHORT
                 ).show()
-                findNavController().navigate(R.id.navigation_home)
+                findNavController().navigate(R.id.nav_home)
             } else {
                 Toast.makeText(
                     requireContext(),
