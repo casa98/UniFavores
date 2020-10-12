@@ -22,4 +22,10 @@
     <string name="unifavores">UniFavores</string>
     <string name="lugar_de_entrega">Lugar de entrega</string>
     <string name="titulo">Título</string>
+    <string name="no_favors_yet">No hay favores para realizar aún, vuelve más tarde ;)</string>
+    <string name="no_favor_selected">No has selecionado ningún favor para realizar aún :(</string>
+    <string name="favors_to_complete">Favores que te comprometiste a realizar. Selecciona uno para ver más opciones:</string>
+    <string name="change_picture">Cambiar foto</string>
+    <string name="score_label">Puntaje:</string>
+    <string name="sign_out_label">Cerrar sesión</string>
 </resources>

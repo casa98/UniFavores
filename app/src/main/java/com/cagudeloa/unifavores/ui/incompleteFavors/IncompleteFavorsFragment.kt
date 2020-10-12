@@ -46,7 +46,6 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
                     incompleteFavorsRecyclerView.adapter = incompleteFavorsAdapter
                 }
             } else {
-                incompleteFavorTitle.visibility = View.GONE
                 incompleteFavorsRecyclerView.visibility = View.GONE
                 incompleteFavorsSecond.visibility = View.VISIBLE
             }
