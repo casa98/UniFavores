@@ -3,6 +3,7 @@ package com.cagudeloa.unifavores.ui.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cagudeloa.unifavores.FAVOR_USER
 import com.cagudeloa.unifavores.NODE_FAVORS
 import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.model.Favor
@@ -25,7 +26,7 @@ class ChatsViewModel : ViewModel() {
     fun getUsersList() {
         auth = FirebaseAuth.getInstance().currentUser!!
         val databaseReference = FirebaseDatabase.getInstance().getReference(NODE_FAVORS)
-        databaseReference.orderByChild("user")
+        databaseReference.orderByChild(FAVOR_USER)
             .equalTo(auth.uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val chatsWith = ArrayList<String>()

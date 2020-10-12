@@ -3,7 +3,10 @@ package com.cagudeloa.unifavores.ui.details
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cagudeloa.unifavores.FAVOR_ASSIGNED_USER
+import com.cagudeloa.unifavores.FAVOR_STATUS
 import com.cagudeloa.unifavores.NODE_FAVORS
+import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.model.Favor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -28,7 +31,7 @@ class FavorDetailsViewModel : ViewModel() {
     fun getFavorCreator(favorUser: String) {
         // [favor.user] tells me who created the current favor, get the username of that user and display it
         val databaseReference =
-            FirebaseDatabase.getInstance().getReference("Users").child(favorUser)
+            FirebaseDatabase.getInstance().getReference(NODE_USERS).child(favorUser)
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val favorCreator = snapshot.child("username").value.toString()
@@ -54,8 +57,8 @@ class FavorDetailsViewModel : ViewModel() {
                     val favorID = snapshot.children.iterator().next().key.toString()
                     // Change this snapshot (favor) by making status = -1 (means assigned)
                     val hashMap: HashMap<String, Any> = HashMap()
-                    hashMap["assignedUser"] = FirebaseAuth.getInstance().currentUser!!.uid
-                    hashMap["status"] = "-1"
+                    hashMap[FAVOR_ASSIGNED_USER] = FirebaseAuth.getInstance().currentUser!!.uid
+                    hashMap[FAVOR_STATUS] = "-1"
                     databaseReference.child(favorID).updateChildren(hashMap)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {

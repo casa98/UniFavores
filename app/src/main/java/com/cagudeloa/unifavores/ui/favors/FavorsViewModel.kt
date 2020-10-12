@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cagudeloa.unifavores.NODE_FAVORS
+import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.model.Favor
+import com.cagudeloa.unifavores.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,6 +21,15 @@ class FavorsViewModel : ViewModel() {
     private val _favors = MutableLiveData<ArrayList<Favor>>()
     val favors: LiveData<ArrayList<Favor>>
         get() = _favors
+
+    private val _canAskFavor = MutableLiveData<Boolean>()
+    val canAskFavor: LiveData<Boolean>
+        get() = _canAskFavor
+
+    init {
+        _canAskFavor.value = false
+    }
+
 
     fun fetchFavors() {
         // Need it not to show favors requested my myself
@@ -40,6 +51,20 @@ class FavorsViewModel : ViewModel() {
                     favors.reverse()    // To show first, the most recent one (not the best solution, I know)
                     _favors.value = favors
                 }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    fun getUserScore(){
+        auth = FirebaseAuth.getInstance()
+        val databaseReference = FirebaseDatabase.getInstance().getReference(NODE_USERS)
+            .child(auth.currentUser!!.uid)
+        databaseReference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val currentUserData = snapshot.getValue(User::class.java)
+                _canAskFavor.value = currentUserData!!.score > 1
             }
 
             override fun onCancelled(error: DatabaseError) {}

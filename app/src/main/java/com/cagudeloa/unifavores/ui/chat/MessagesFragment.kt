@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentMessagesBinding
 import com.cagudeloa.unifavores.model.Chat
@@ -37,7 +38,7 @@ class MessagesFragment : Fragment() {
 
         // To load messages when the chat is open
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+        databaseReference = FirebaseDatabase.getInstance().getReference(NODE_USERS).child(userId)
         databaseReference!!.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)

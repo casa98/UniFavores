@@ -3,7 +3,9 @@ package com.cagudeloa.unifavores.ui.incompleteFavors
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cagudeloa.unifavores.FAVOR_DESCRIPTION
 import com.cagudeloa.unifavores.NODE_FAVORS
+import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.model.Favor
 import com.cagudeloa.unifavores.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -52,7 +54,7 @@ class IncompleteFavorsViewModel : ViewModel() {
 
     fun updateStatusInDatabase(favor: Favor) {
         val databaseReference = FirebaseDatabase.getInstance().getReference(NODE_FAVORS)
-        databaseReference.orderByChild("favorDescription")
+        databaseReference.orderByChild(FAVOR_DESCRIPTION)
             .equalTo(favor.favorDescription).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val favorID = snapshot.children.iterator().next().key.toString()
@@ -74,7 +76,7 @@ class IncompleteFavorsViewModel : ViewModel() {
 
     private fun updateUserScore() {
         auth = FirebaseAuth.getInstance()
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        val databaseReference = FirebaseDatabase.getInstance().getReference(NODE_USERS)
             .child(auth.currentUser!!.uid)
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

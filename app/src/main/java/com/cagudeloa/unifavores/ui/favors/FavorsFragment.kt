@@ -32,6 +32,14 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         if (isAdded)
             setupRecyclerView()
 
+        viewModel.getUserScore()
+        viewModel.canAskFavor.observe(viewLifecycleOwner, { canAskForFavor ->
+            if (!canAskForFavor)
+                floatingActionButton.visibility = View.GONE
+            else
+                floatingActionButton.visibility = View.VISIBLE
+        })
+
         floatingActionButton.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.addFavor)
         }
@@ -42,14 +50,14 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         super.onActivityCreated(savedInstanceState)
         viewModel.fetchFavors()
         viewModel.favors.observe(viewLifecycleOwner, { favorsList ->
-            if(!favorsList.isNullOrEmpty()) {
+            if (!favorsList.isNullOrEmpty()) {
                 fragmentFavorsSecond.visibility = View.GONE
                 if (isAdded) {
                     val favorsAdapter =
                         FavorsAdapter(requireContext(), this@FavorsFragment, favorsList)
                     myRecyclerView.adapter = favorsAdapter
                 }
-            }else{
+            } else {
                 fragmentFavorsSecond.visibility = View.VISIBLE
             }
         })
