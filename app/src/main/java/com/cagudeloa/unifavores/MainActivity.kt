@@ -26,12 +26,10 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
-                /*
                 R.id.profileFragment,
                 R.id.incompletFragment,
                 R.id.statisticsFragment,
                 R.id.chatsFragment
-                */
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

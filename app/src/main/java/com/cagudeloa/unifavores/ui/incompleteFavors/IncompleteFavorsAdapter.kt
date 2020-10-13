@@ -22,6 +22,7 @@ class IncompleteFavorsAdapter(
 
     inner class IncompleteFavorViewHolder(itemView: View) : BaseViewHolder<Favor>(itemView) {
         override fun bind(item: Favor, position: Int) {
+            itemView.favorCreatorText.text = item.username
             itemView.favorTitleText.text = item.favorTitle
             itemView.favorDescriptionText.text = item.favorDescription
             itemView.favorLocationtext.text = item.favorLocation

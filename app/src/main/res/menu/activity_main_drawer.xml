@@ -10,13 +10,15 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="Inicio" />
+            android:title="@string/inicio" />
         <item
             android:id="@+id/profileFragment"
             android:icon="@drawable/ic_person"
-            android:title="Perfil" />
+            android:title="@string/perfil" />
     </group>
-    <group android:id="@+id/part_2">
+    <group
+        android:id="@+id/part_2"
+        android:checkableBehavior="single">
         <!--
         <item
             android:id="@+id/activeFragment"
@@ -26,16 +28,16 @@
         <item
             android:id="@+id/incompletFragment"
             android:icon="@drawable/ic_list"
-            android:title="Favores sin completar" />
+            android:title="@string/favores_sin_completar" />
 
         <item
             android:id="@+id/statisticsFragment"
             android:icon="@drawable/ic_bar_chart"
-            android:title="Estadísticas" />
+            android:title="@string/estadisticas" />
         <item
             android:id="@+id/chatsFragment"
             android:icon="@drawable/ic_chat"
-            android:title="Chat con voluntarios" />
+            android:title="@string/chat_con_voluntarios" />
     </group>
 
 </menu>

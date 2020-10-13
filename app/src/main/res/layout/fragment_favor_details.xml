@@ -19,7 +19,7 @@
             android:id="@+id/view"
             android:layout_width="wrap_content"
             android:layout_height="112dp"
-            android:background="@color/colorPrimary"
+            android:background="#EBE3F8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,12 +28,11 @@
             android:id="@+id/circleImageView"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:src="@drawable/someone"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/favorCreatorText"
@@ -44,14 +43,13 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingBottom="16dp"
-            android:textColor="#FFFFFF"
+            android:textColor="#000"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/circleImageView"
-            app:layout_constraintTop_toBottomOf="@+id/labelCreator"
-            tools:text="@{favorDetails.username}" />
+            app:layout_constraintTop_toBottomOf="@+id/labelCreator" />
 
         <TextView
             android:id="@+id/labelCreator"
@@ -61,7 +59,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             android:text="@string/favor_pedido_por"
-            android:textColor="#FFFFFF"
+            android:textColor="#000"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/favorCreatorText"
             app:layout_constraintEnd_toEndOf="@+id/view"

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -33,18 +32,15 @@ class FavorDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as AppCompatActivity).supportActionBar?.elevation = 0.0F
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_favor_details, container, false)
 
         viewModel = ViewModelProvider(this).get(FavorDetailsViewModel::class.java)
-        binding.favorDetails = viewModel
-        binding.lifecycleOwner = this
+        binding.favorCreatorText.text = favor.username
         binding.titleFavor.text = favor.favorTitle
         binding.descriptionFavor.text = favor.favorDescription
         binding.locationFavor.text = favor.favorLocation
 
-        viewModel.getFavorCreator(favor.user)
 
         return binding.root
     }
@@ -66,11 +62,5 @@ class FavorDetailsFragment : Fragment() {
                 }
             })
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Cosmetic thing
-        (activity as AppCompatActivity).supportActionBar?.elevation = 8.0F
     }
 }

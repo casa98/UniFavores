@@ -29,4 +29,11 @@
     <string name="score_label">Puntaje:</string>
     <string name="sign_out_label">Cerrar sesión</string>
     <string name="best_users">Usuarios con mayor espíritu solidario:</string>
+    <string name="inicio">Inicio</string>
+    <string name="perfil">Perfil</string>
+    <string name="favores_sin_completar">Favores sin completar</string>
+    <string name="estadisticas">Estadísticas</string>
+    <string name="chat_con_voluntarios">Chat con voluntarios</string>
+    <string name="default_email">armandoestanquito@mail.com</string>
+    <string name="default_name">Armado Esteban Quito</string>
 </resources>

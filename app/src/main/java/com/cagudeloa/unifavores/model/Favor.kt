@@ -5,10 +5,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Favor(
-    var user: String = "Anonymous user",
+    var user: String = "",
+    var username: String = "",
     var assignedUser: String = "",
-    var favorTitle: String = "Favor title",
-    var favorDescription: String = "Favor description",
+    var assignedUsername: String = "",
+    var favorTitle: String = "",
+    var favorDescription: String = "",
     var favorLocation: String = "",
     val creationDate: String = "",
     var status: String = "0"
