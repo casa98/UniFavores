@@ -1,11 +1,12 @@
 package com.cagudeloa.unifavores.auth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.cagudeloa.unifavores.MainActivity
+import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -31,48 +32,60 @@ class RegisterActivity : AppCompatActivity() {
             val password1 = password_text.text.toString()
             val password2 = confirm_password_text.text.toString()
             // TODO Improve this validations
-            if(password1 == password2)
-                if(password1.length > 5)
-                    if(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
-                        if(username.length > 4)
+            if (password1 == password2)
+                if (password1.length > 5)
+                    if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+                        if (username.length > 4)
                             registerUser(username, email, password1)
                         else
-                            Toast.makeText(this, "Please, enter a longer name", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "Please, enter a longer name", Toast.LENGTH_LONG)
+                                .show()
                     else
-                        Toast.makeText(this, "Please, enter a valid email", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Please, enter a valid email", Toast.LENGTH_LONG)
+                            .show()
                 else
-                    Toast.makeText(this, "Please, enter a longer password", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Please, enter a longer password", Toast.LENGTH_LONG)
+                        .show()
             else
                 Toast.makeText(this, "Passwords don't match", Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun registerUser(username: String, email: String, password: String){
+    private fun registerUser(username: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this){createUser ->
-                if (createUser.isSuccessful){
+            .addOnCompleteListener(this) { createUser ->
+                if (createUser.isSuccessful) {
                     // Create a collection whose ID is the userId (which is unique)
                     val uid = auth.currentUser!!.uid
 
-                    databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid)
+                    databaseReference =
+                        FirebaseDatabase.getInstance().getReference(NODE_USERS).child(uid)
                     // I'll save some data here to then, save in on db
                     val hashMap: HashMap<String, Any> = HashMap()
                     hashMap["uid"] = uid
                     hashMap["username"] = username
                     hashMap["image"] = ""
                     hashMap["score"] = 2
-                    databaseReference.setValue(hashMap).addOnCompleteListener(this){result ->
-                        if(result.isSuccessful){
+                    databaseReference.setValue(hashMap).addOnCompleteListener(this) { result ->
+                        if (result.isSuccessful) {
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()
-                        }else{
-                            Toast.makeText(this, "User couldn't be created", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "User couldn't be created\n${result.exception}",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
 
-                }else{
-                    Toast.makeText(this, "User couldn't be created", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "User couldn't be created\n${createUser.exception}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
     }

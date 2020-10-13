@@ -16,28 +16,32 @@
             android:icon="@drawable/ic_person"
             android:title="@string/perfil" />
     </group>
+
     <group
         android:id="@+id/part_2"
         android:checkableBehavior="single">
-        <!--
         <item
-            android:id="@+id/activeFragment"
-            android:title="Mis favores activos"
-            android:icon="@drawable/ic_list"/>
-        -->
+            android:id="@+id/myFavorsFragment"
+            android:icon="@drawable/ic_event_note"
+            android:title="@string/mis_favores" />
         <item
             android:id="@+id/incompletFragment"
             android:icon="@drawable/ic_list"
             android:title="@string/favores_sin_completar" />
 
         <item
-            android:id="@+id/statisticsFragment"
-            android:icon="@drawable/ic_bar_chart"
-            android:title="@string/estadisticas" />
-        <item
             android:id="@+id/chatsFragment"
             android:icon="@drawable/ic_chat"
             android:title="@string/chat_con_voluntarios" />
+    </group>
+
+    <group
+        android:id="@+id/part_3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/statisticsFragment"
+            android:icon="@drawable/ic_bar_chart"
+            android:title="@string/estadisticas" />
     </group>
 
 </menu>

@@ -12,3 +12,7 @@ const val FAVOR_DESCRIPTION ="favorDescription"
 const val FAVOR_LOCATION = "favorLocation"
 const val FAVOR_CREATION_DATE = "creationDate"
 const val FAVOR_STATUS = "status"
+
+const val ASSIGNED = "ASIGNAD0"
+const val UNASSIGNED = "SIN ASIGNAR"
+const val COMPLETED = "COMPLETADO"

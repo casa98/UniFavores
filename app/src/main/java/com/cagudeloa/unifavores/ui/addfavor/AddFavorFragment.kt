@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.model.Favor
@@ -49,7 +50,7 @@ class AddFavorFragment : Fragment() {
             }
         }
 
-        viewModel.result.observe(viewLifecycleOwner, {
+        viewModel.result.observe(viewLifecycleOwner) {
             if (it == null) {
                 Toast.makeText(
                     requireContext(),
@@ -64,7 +65,7 @@ class AddFavorFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
             }
-        })
+        }
     }
 
     override fun onDestroy() {

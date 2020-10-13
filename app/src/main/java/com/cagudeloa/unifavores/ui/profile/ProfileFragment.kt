@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.auth.LoginActivity
 import com.cagudeloa.unifavores.databinding.FragmentProfileBinding
@@ -38,13 +39,13 @@ class ProfileFragment : Fragment() {
         }
 
         viewModel.getProfileData()
-        viewModel.eventSignOut.observe(viewLifecycleOwner, { signOut ->
+        viewModel.eventSignOut.observe(viewLifecycleOwner) { signOut ->
             if (signOut) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
                 viewModel.signOutEvent()
             }
-        })
+        }
     }
 }

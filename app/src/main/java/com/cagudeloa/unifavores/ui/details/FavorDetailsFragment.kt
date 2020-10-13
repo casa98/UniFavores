@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentFavorDetailsBinding
 import com.cagudeloa.unifavores.model.Favor
@@ -49,7 +50,7 @@ class FavorDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.doFavorButton.setOnClickListener {
             viewModel.changeFavorToAssigned(favor)
-            viewModel.result.observe(viewLifecycleOwner, {
+            viewModel.result.observe(viewLifecycleOwner) {
                 if (it == null) {
                     Snackbar.make(
                         view,
@@ -60,7 +61,7 @@ class FavorDetailsFragment : Fragment() {
                 } else {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
         }
     }
 }

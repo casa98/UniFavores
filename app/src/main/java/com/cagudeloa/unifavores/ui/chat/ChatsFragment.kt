@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,7 +34,7 @@ class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         viewModel.getUsersList()
-        viewModel.users.observe(viewLifecycleOwner, { usersList ->
+        viewModel.users.observe(viewLifecycleOwner) { usersList ->
             if (!usersList.isNullOrEmpty()) {
                 binding.chatsSecond.visibility = View.GONE
                 binding.chatsRecyclerView.visibility = View.VISIBLE
@@ -46,7 +47,7 @@ class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
                 binding.chatsRecyclerView.visibility = View.GONE
                 binding.chatsSecond.visibility = View.VISIBLE
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {

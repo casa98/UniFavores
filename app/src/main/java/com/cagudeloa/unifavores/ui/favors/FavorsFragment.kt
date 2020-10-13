@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -33,12 +34,12 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
             setupRecyclerView()
 
         viewModel.getUserScore()
-        viewModel.canAskFavor.observe(viewLifecycleOwner, { canAskForFavor ->
+        viewModel.canAskFavor.observe(viewLifecycleOwner) { canAskForFavor ->
             if (!canAskForFavor)
                 floatingActionButton.visibility = View.GONE
             else
                 floatingActionButton.visibility = View.VISIBLE
-        })
+        }
 
         floatingActionButton.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.addFavor)
@@ -49,7 +50,7 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.fetchFavors()
-        viewModel.favors.observe(viewLifecycleOwner, { favorsList ->
+        viewModel.favors.observe(viewLifecycleOwner) { favorsList ->
             if (!favorsList.isNullOrEmpty()) {
                 fragmentFavorsSecond.visibility = View.GONE
                 if (isAdded) {
@@ -60,7 +61,7 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
             } else {
                 fragmentFavorsSecond.visibility = View.VISIBLE
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {

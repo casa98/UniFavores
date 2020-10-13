@@ -43,6 +43,9 @@ class LoginActivity : AppCompatActivity() {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
+                    } else {
+                        Toast.makeText(this, "Couldn't login\n${it.exception}", Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
         } else {

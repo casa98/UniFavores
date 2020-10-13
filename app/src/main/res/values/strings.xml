@@ -36,4 +36,9 @@
     <string name="chat_con_voluntarios">Chat con voluntarios</string>
     <string name="default_email">armandoestanquito@mail.com</string>
     <string name="default_name">Armado Esteban Quito</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mis_favores">Mis favores</string>
+    <string name="no_favor_yet">No has pedido ningún favor aún :)</string>
+    <string name="estado">ESTADO:</string>
 </resources>

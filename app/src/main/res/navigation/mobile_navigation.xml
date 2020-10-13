@@ -60,4 +60,13 @@
     <fragment
         android:id="@+id/messagesFragment"
         android:name="com.cagudeloa.unifavores.ui.chat.MessagesFragment" />
+    <fragment
+        android:id="@+id/myFavorsFragment"
+        android:name="com.cagudeloa.unifavores.ui.myfavors.MyFavorsFragment"
+        android:label="Mis Favores"
+        tools:layout="@layout/fragment_my_favors">
+        <action
+            android:id="@+id/action_myFavorsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
 </navigation>

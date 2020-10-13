@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
@@ -33,13 +34,13 @@ class StatisticsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         viewModel.getUsersList()
-        viewModel.users.observe(viewLifecycleOwner, { usersList ->
+        viewModel.users.observe(viewLifecycleOwner) { usersList ->
             if (isAdded) {
                 val chatsAdapter =
                     ChatsAdapter(requireContext(), this@StatisticsFragment, usersList)
                 binding.usersRecyclerView.adapter = chatsAdapter
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {
