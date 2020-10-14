@@ -13,6 +13,7 @@ data class Favor(
     var favorDescription: String = "",
     var favorLocation: String = "",
     val creationDate: String = "",
+    val key: String = "",
     var status: String = "0"
     /**
      *  0 --> not-assigned

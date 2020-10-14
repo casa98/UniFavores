@@ -49,19 +49,18 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
+        android:autofillHints="@string/enter_your_name"
         android:background="@drawable/rond_border"
-        android:drawableTint="@color/colorPrimary"
         android:drawableStart="@drawable/ic_person"
         android:drawablePadding="16dp"
         android:ems="10"
         android:hint="@string/enter_your_name"
-        android:inputType="textEmailAddress"
+        android:inputType="textCapWords"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wave_view"
-        android:autofillHints="@string/enter_your_name" />
+        app:layout_constraintTop_toBottomOf="@+id/wave_view" />
 
     <EditText
         android:id="@+id/email_text"

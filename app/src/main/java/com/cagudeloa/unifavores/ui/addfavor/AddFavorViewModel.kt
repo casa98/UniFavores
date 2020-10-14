@@ -28,8 +28,6 @@ class AddFavorViewModel : ViewModel() {
         val user = userID
         val hashMap: HashMap<String, String> = HashMap()
         hashMap[FAVOR_USER] = user
-        hashMap[FAVOR_ASSIGNED_USER] = ""
-        hashMap[FAVOR_ASSIGNED_USERNAME] = ""
         hashMap[FAVOR_TITLE] = favor.favorTitle
         hashMap[FAVOR_DESCRIPTION] = favor.favorDescription
         hashMap[FAVOR_LOCATION] = favor.favorLocation
@@ -43,7 +41,9 @@ class AddFavorViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val username = snapshot.getValue(User::class.java)
                 hashMap[FAVOR_USERNAME] = username!!.username
-                databaseReference.push().setValue(hashMap).addOnCompleteListener {
+                val key = databaseReference.push().key.toString()
+                hashMap[KEY] = key
+                databaseReference.child(key).setValue(hashMap).addOnCompleteListener {
                     if (it.isSuccessful) {
                         updateUserScore()
 

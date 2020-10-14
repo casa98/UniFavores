@@ -32,8 +32,7 @@ class ProfileViewModel: ViewModel() {
 
     fun getProfileData() {
         // [favor.user] tells me who created the current favor, get the username of that user and display it
-        val auth = FirebaseAuth.getInstance()
-        val user = auth.currentUser!!.uid
+        val user = FirebaseAuth.getInstance().currentUser!!.uid
         val databaseReference =
             FirebaseDatabase.getInstance().getReference(NODE_USERS).child(user)
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {

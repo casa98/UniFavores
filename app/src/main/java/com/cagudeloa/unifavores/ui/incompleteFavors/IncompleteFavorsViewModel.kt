@@ -3,7 +3,6 @@ package com.cagudeloa.unifavores.ui.incompleteFavors
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.cagudeloa.unifavores.FAVOR_DESCRIPTION
 import com.cagudeloa.unifavores.NODE_FAVORS
 import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.model.Favor
@@ -53,25 +52,19 @@ class IncompleteFavorsViewModel : ViewModel() {
     }
 
     fun updateStatusInDatabase(favor: Favor) {
-        val databaseReference = FirebaseDatabase.getInstance().getReference(NODE_FAVORS)
-        databaseReference.orderByChild(FAVOR_DESCRIPTION)
-            .equalTo(favor.favorDescription).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val favorID = snapshot.children.iterator().next().key.toString()
-                    val hashMap: HashMap<String, Any> = HashMap()
-                    hashMap["status"] = "1"     // Means it was completed (check Model)
-                    databaseReference.child(favorID).updateChildren(hashMap)
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                updateUserScore()
-                            } else {
-                                _result.value = it.exception
-                            }
-                        }
+        val hashMap: HashMap<String, Any> = HashMap()
+        hashMap["status"] = "1"     // Means it was completed (check Model)
+        val databaseReference =
+            FirebaseDatabase.getInstance().getReference(NODE_FAVORS).child(favor.key)
+        databaseReference.updateChildren(hashMap)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    updateUserScore()
+                } else {
+                    _result.value = it.exception
                 }
+            }
 
-                override fun onCancelled(error: DatabaseError) {}
-            })
     }
 
     private fun updateUserScore() {

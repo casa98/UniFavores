@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -82,6 +83,21 @@ class MyFavorsFragment : Fragment(), MyFavorsAdapter.OnItemClickListener {
                 builder.setPositiveButton("Sí") { _, _ ->
                     // Go db delete this favor
                     viewModel.deleteFavor(favor)
+                    viewModel.result.observe(this){
+                        if(it == null){
+                            Toast.makeText(
+                                requireContext(),
+                                "Favor eliminado",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Error: ${it.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 }
             } else if (favor.status == ASSIGNED) {
                 builder.setTitle("¿Deseas chatear con ${favor.assignedUsername}?\n")
