@@ -2,6 +2,7 @@ package com.cagudeloa.unifavores
 
 const val NODE_USERS = "Users"
 const val NODE_FAVORS = "Favors"
+const val NODE_CHAT = "Chat"
 
 const val FAVOR_USER = "user"
 const val FAVOR_USERNAME = "username"
@@ -14,6 +15,6 @@ const val FAVOR_CREATION_DATE = "creationDate"
 const val FAVOR_STATUS = "status"
 const val KEY = "key"
 
-const val ASSIGNED = "ASIGNAD0"
+const val ASSIGNED = "ASIGNADO"
 const val UNASSIGNED = "SIN ASIGNAR"
 const val COMPLETED = "COMPLETADO"

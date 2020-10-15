@@ -7,24 +7,19 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentMessagesBinding
-import com.cagudeloa.unifavores.model.Chat
-import com.cagudeloa.unifavores.model.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil
 
 class MessagesFragment : Fragment() {
 
-    private lateinit var userId: String
+    private lateinit var userID: String
+    private lateinit var username: String
     private lateinit var binding: FragmentMessagesBinding
-    private var firebaseUser: FirebaseUser? = null
-    private var databaseReference: DatabaseReference? = null
-    var chatList = ArrayList<Chat>()
+    private lateinit var viewModel: MessagesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,21 +28,10 @@ class MessagesFragment : Fragment() {
          * so that the conversation will be with it and current user
          */
         requireArguments().let {
-            userId = it.getString("user")!!
+            userID = it.getString("userID")!!
+            username = it.getString("username")!!
         }
-
-        // To load messages when the chat is open
-        firebaseUser = FirebaseAuth.getInstance().currentUser
-        databaseReference = FirebaseDatabase.getInstance().getReference(NODE_USERS).child(userId)
-        databaseReference!!.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java)
-                (activity as AppCompatActivity).supportActionBar?.title = user!!.username
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-
-        })
+        (activity as AppCompatActivity).supportActionBar?.title = username
     }
 
     override fun onCreateView(
@@ -57,61 +41,46 @@ class MessagesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_messages, container, false)
+        viewModel = ViewModelProvider(this).get(MessagesViewModel::class.java)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Setup RecyclerView
-        binding.chatRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        readMessage(firebaseUser!!.uid, userId)
-        binding.sendMessageButton.setOnClickListener {
-            val message = binding.messageEdit.text.toString()
-            if (message.isNotEmpty()) {
-                sendMessage(firebaseUser!!.uid, userId, message)
-                binding.messageEdit.setText("")
-            }
-        }
-    }
+        setupRecyclerView()
 
-    private fun sendMessage(senderId: String, receiverId: String, message: String) {
-        val databaseReference: DatabaseReference? = FirebaseDatabase.getInstance().getReference()
-
-        val hashMap: HashMap<String, String> = HashMap()
-        hashMap["senderId"] = senderId
-        hashMap["receiverId"] = receiverId
-        hashMap["message"] = message
-        databaseReference!!.child("Chat").push().setValue(hashMap)
-    }
-
-    private fun readMessage(senderId: String, receiverId: String) {
-        // All this to show new messages when db is changed
-        databaseReference = FirebaseDatabase.getInstance().getReference("Chat")
-        databaseReference!!.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                chatList.clear()
-                for (dataSnapshot: DataSnapshot in snapshot.children) {
-                    val chat = dataSnapshot.getValue(Chat::class.java)
-                    if (chat!!.senderId == senderId && chat.receiverId == receiverId ||
-                        chat.senderId == receiverId && chat.receiverId == senderId
-                    ) {
-                        chatList.add(chat)
-                    }
-                }
-
-                // Setup adapter
+        viewModel.readMessage(userID)
+        viewModel.messages.observe(viewLifecycleOwner) { messagesList ->
+            if (!messagesList.isNullOrEmpty()) {
+                binding.chatsLayout.visibility = View.GONE
                 if (isAdded) {
-                    val chatAdapter = MessagesAdapter(requireContext(), chatList)
+                    val chatAdapter = MessagesAdapter(requireContext(), messagesList)
                     binding.apply {
                         chatRecyclerView.adapter = chatAdapter
                         chatRecyclerView.scrollToPosition(chatAdapter.itemCount - 1)
                     }
                 }
+            } else {
+                binding.chatsLayout.visibility = View.VISIBLE
             }
+        }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+        binding.sendMessageButton.setOnClickListener {
+            val message = binding.messageEdit.text.toString()
+            if (message.isNotEmpty()) {
+                viewModel.sendMessage(userID, message)
+                binding.messageEdit.setText("")
+                binding.messageEdit.hint = getString(R.string.type_a_message)
+            } else {
+                binding.messageEdit.hint = "Escribe algo ombe"
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding.chatRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
     override fun onDestroy() {

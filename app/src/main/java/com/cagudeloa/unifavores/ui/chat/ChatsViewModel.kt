@@ -46,7 +46,7 @@ class ChatsViewModel : ViewModel() {
                                     if (chatsWith.contains(user!!.uid))
                                         users.add(user)
                                 }
-                                users.reverse()
+                                users.toList().reversed()
                                 _users.value = users
                             }
 

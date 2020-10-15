@@ -56,7 +56,11 @@
         android:id="@+id/chatsFragment"
         android:name="com.cagudeloa.unifavores.ui.chat.ChatsFragment"
         android:label="Conversaciones"
-        tools:layout="@layout/fragment_chats" />
+        tools:layout="@layout/fragment_chats" >
+        <action
+            android:id="@+id/action_chatsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/messagesFragment"
         android:name="com.cagudeloa.unifavores.ui.chat.MessagesFragment" />

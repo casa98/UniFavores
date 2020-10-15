@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.chat_item.view.*
 class ChatsAdapter(
     private val context: Context,
     private val itemClickListener: ChatsAdapter.OnItemClickListener,
-    private val chatList: ArrayList<User>,
+    private val chatList: List<User>,
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     interface OnItemClickListener {

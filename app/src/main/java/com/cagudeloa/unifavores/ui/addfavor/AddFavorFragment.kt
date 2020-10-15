@@ -42,6 +42,7 @@ class AddFavorFragment : Fragment() {
                     .show()
                 return@setOnClickListener
             } else {
+                askFavor.visibility = View.INVISIBLE
                 val favor = Favor()
                 favor.favorTitle = title
                 favor.favorDescription = description

@@ -101,7 +101,8 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
                 } else {
                     // Take me to chat with ${favor.user}
                     val bundle = Bundle()
-                    bundle.putString("user", favor.user)
+                    bundle.putString("userID", favor.user)
+                    bundle.putString("username", favor.username)
                     findNavController().navigate(
                         R.id.action_incompletFragment_to_messagesFragment,
                         bundle

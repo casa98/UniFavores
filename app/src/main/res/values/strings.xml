@@ -6,7 +6,7 @@
     <string name="your_email">Tu correo</string>
     <string name="enter_your_name">Escribe tu nombre</string>
     <string name="confirm_password">Confirma contraseña</string>
-    <string name="register">Regístrate</string>
+    <string name="register">Registrarse</string>
     <string name="log_in_instead">Ya tengo una cuenta</string>
     <string name="login">Ingresar</string>
     <string name="new_user_register_now">¿Nuevo aquí? Regístrate</string>
@@ -41,4 +41,7 @@
     <string name="mis_favores">Mis favores</string>
     <string name="no_favor_yet">No has pedido ningún favor aún :)</string>
     <string name="estado">ESTADO:</string>
+    <string name="no_messages_yet">No hay mensajes aún, saluda!</string>
+    <string name="chats_with_volunteers_label">Aquí aparecerán los chats de las personas que te están haciendo algún favor, nada por ahora :(</string>
+    <string name="ask_for_a_favor">Ask for a favor</string>
 </resources>

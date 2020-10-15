@@ -105,7 +105,8 @@ class MyFavorsFragment : Fragment(), MyFavorsAdapter.OnItemClickListener {
                 builder.setPositiveButton("Sí") { _, _ ->
                     // Navigate to chat with favor.assignedUser
                     val bundle = Bundle()
-                    bundle.putString("user", favor.assignedUser)
+                    bundle.putString("userID", favor.assignedUser)
+                    bundle.putString("username", favor.assignedUsername)
                     findNavController().navigate(
                         R.id.action_myFavorsFragment_to_messagesFragment,
                         bundle

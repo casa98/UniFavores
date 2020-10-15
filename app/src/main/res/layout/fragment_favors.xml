@@ -22,7 +22,7 @@
             android:layout_marginEnd="16dp"
             android:gravity="center"
             android:text="@string/no_favors_yet"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,12 +44,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:visibility="gone"
-        app:tint="@android:color/white"
-        app:borderWidth="0dp"
         android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/ask_for_a_favor"
         android:src="@drawable/ic_add"
+        android:visibility="gone"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@android:color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

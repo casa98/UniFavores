@@ -15,8 +15,8 @@ import com.google.firebase.database.ValueEventListener
 class StatisticsViewModel : ViewModel() {
 
     private lateinit var auth: FirebaseUser
-    private val _users = MutableLiveData<ArrayList<User>>()
-    val users: LiveData<ArrayList<User>>
+    private val _users = MutableLiveData<List<User>>()
+    val users: LiveData<List<User>>
         get() = _users
 
 
@@ -31,8 +31,9 @@ class StatisticsViewModel : ViewModel() {
                         val user = dataSnapshot.getValue((User::class.java))
                         users.add(user!!)
                     }
-                    // TODO Order (local) users list by users.score in desc
-                    _users.value = users
+                    // Sort users list by its score in desc order
+                    val sortedUsers = users.sortedWith(compareBy { it.score }).reversed()
+                    _users.value = sortedUsers
                 }
 
                 override fun onCancelled(error: DatabaseError) {}
