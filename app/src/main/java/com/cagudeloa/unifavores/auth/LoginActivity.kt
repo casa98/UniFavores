@@ -28,21 +28,33 @@ class LoginActivity : AppCompatActivity() {
         val email = email_text.text.toString()
         val password = password_text.text.toString()
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+            showAndHide(View.GONE)
+            loginProgressBarLayout.visibility = View.VISIBLE
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) {
                     if (it.isSuccessful) {
+                        loginProgressBarLayout.visibility = View.GONE
                         // Open home activity
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(this, "Couldn't login\n${it.exception}", Toast.LENGTH_LONG)
+                        loginProgressBarLayout.visibility = View.GONE
+                        showAndHide(View.VISIBLE)
+                        Toast.makeText(this, "Couldn't login\n${it.exception!!.message}", Toast.LENGTH_LONG)
                             .show()
                     }
                 }
         } else {
             Toast.makeText(this, "Both fields are required", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun showAndHide(state: Int) {
+        email_text.visibility = state
+        password_text.visibility = state
+        login_button.visibility = state
+        login_label.visibility = state
     }
 
     fun goToSignUp(view: View) {

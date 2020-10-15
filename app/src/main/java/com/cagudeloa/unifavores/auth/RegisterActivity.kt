@@ -52,6 +52,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser(username: String, email: String, password: String) {
+        showAndHide(View.GONE)
+        registerProgressBarLayout.visibility = View.VISIBLE
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { createUser ->
                 if (createUser.isSuccessful) {
@@ -68,19 +70,24 @@ class RegisterActivity : AppCompatActivity() {
                     hashMap["score"] = 2
                     databaseReference.setValue(hashMap).addOnCompleteListener(this) { result ->
                         if (result.isSuccessful) {
+                            registerProgressBarLayout.visibility = View.GONE
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {
+                            registerProgressBarLayout.visibility = View.GONE
+                            showAndHide(View.VISIBLE)
                             Toast.makeText(
                                 this,
-                                "User couldn't be created\n${result.exception}",
+                                "User couldn't be created\n${result.exception!!.message}",
                                 Toast.LENGTH_LONG
                             ).show()
                         }
                     }
 
                 } else {
+                    registerProgressBarLayout.visibility = View.GONE
+                    showAndHide(View.VISIBLE)
                     Toast.makeText(
                         this,
                         "User couldn't be created\n${createUser.exception}",
@@ -88,6 +95,15 @@ class RegisterActivity : AppCompatActivity() {
                     ).show()
                 }
             }
+    }
+
+    private fun showAndHide(state: Int) {
+        usernameEdit.visibility = state
+        email_text.visibility = state
+        password_text.visibility = state
+        confirm_password_text.visibility = state
+        login_button.visibility = state
+        login_label.visibility = state
     }
 
     fun goToSignIn(view: View) {
