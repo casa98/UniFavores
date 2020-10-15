@@ -19,6 +19,10 @@ class ProfileViewModel: ViewModel() {
     val score: LiveData<String>
         get() = _score
 
+    private val _image = MutableLiveData<String>()
+    val image: LiveData<String>
+    get() = _image
+
     private val _eventSignOut = MutableLiveData<Boolean>()
     val eventSignOut : LiveData<Boolean>
         get() = _eventSignOut
@@ -26,6 +30,7 @@ class ProfileViewModel: ViewModel() {
     init {
         _username.value = ""
         _score.value = ""
+        _image.value = ""
         _eventSignOut.value = false
     }
 
@@ -39,8 +44,12 @@ class ProfileViewModel: ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val favorCreator = snapshot.child("username").value.toString()
                 val score = snapshot.child("score").value.toString()
+                val image = snapshot.child("image").value.toString()
+                // These 2 values are directly connected with the XML
                 _username.value = favorCreator
                 _score.value = score
+                // This one is listened from the fragment and set using Picasso
+                _image.value = image
             }
 
             override fun onCancelled(error: DatabaseError) {}

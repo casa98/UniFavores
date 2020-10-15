@@ -13,6 +13,7 @@ import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentFavorDetailsBinding
 import com.cagudeloa.unifavores.model.Favor
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 
 class FavorDetailsFragment : Fragment() {
 
@@ -47,6 +48,17 @@ class FavorDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Load Favor creator image
+        viewModel.loadFavorCreatorImage(favor.user)
+        viewModel.image.observe(viewLifecycleOwner) { image ->
+            if (image.isNotEmpty()) {
+                Picasso.get().load(image).placeholder(R.drawable.loading)
+                    .error(R.drawable.ic_big_person).into(binding.circleImageView)
+            } else {
+                binding.circleImageView.setImageResource(R.drawable.ic_big_person)
+            }
+        }
         binding.doFavorButton.setOnClickListener {
             viewModel.changeFavorToAssigned(favor)
             viewModel.result.observe(viewLifecycleOwner) {

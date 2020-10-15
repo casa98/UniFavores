@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,13 +15,14 @@ import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.auth.LoginActivity
 import com.cagudeloa.unifavores.databinding.FragmentProfileBinding
-import com.cagudeloa.unifavores.model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
@@ -51,10 +51,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.changePhotoButton.setOnClickListener {
-            choosePicture()
-        }
-
         viewModel.getProfileData()
         viewModel.eventSignOut.observe(viewLifecycleOwner) { signOut ->
             if (signOut) {
@@ -62,6 +58,25 @@ class ProfileFragment : Fragment() {
                 startActivity(intent)
                 requireActivity().finish()
                 viewModel.signOutEvent()
+            }
+        }
+
+        /**
+         * Code for getting image from Gallery, uploading it to Storage, and show it in drawer
+         */
+        binding.changePhotoButton.setOnClickListener {
+            choosePicture()
+        }
+
+        // Listen for image in ViewModel and set the pic
+        viewModel.image.observe(viewLifecycleOwner) { image ->
+            if (image.isNotEmpty()) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    Picasso.get().load(image).placeholder(R.drawable.loading).error(R.drawable.no_photo)
+                        .into(binding.profilePhoto)
+                }
+            }else{
+                binding.profilePhoto.setImageResource(R.drawable.no_photo)
             }
         }
     }
@@ -77,14 +92,15 @@ class ProfileFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             uploadPicture(data.data!!)
-            Picasso.get().load(data.data).error(R.drawable.ic_lock).into(binding.circleImageView3)
+            Picasso.get().load(data.data).placeholder(R.drawable.loading).error(R.drawable.no_photo)
+                .into(binding.profilePhoto)
         }
     }
 
     private fun uploadPicture(data: Uri) {
         val ref = storageReference.child(currentUser.uid)
         val uploadTask = ref.putFile(data)
-        val urlTask = uploadTask.continueWithTask { task ->
+        uploadTask.continueWithTask { task ->
             if (!task.isSuccessful) {
                 task.exception?.let {
                     throw it

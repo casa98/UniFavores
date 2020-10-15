@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.base.BaseViewHolder
 import com.cagudeloa.unifavores.model.User
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.chat_item.view.*
 
 class ChatsAdapter(
@@ -26,7 +27,14 @@ class ChatsAdapter(
         override fun bind(item: User, position: Int) {
             itemView.chatUsernameText.text = item.username
             itemView.chatSecondText.text = item.score.toString() + " puntos"
-            itemView.chatUserImage.setImageResource(R.drawable.someone)
+            //itemView.chatUserImage.setImageResource(R.drawable.someone)
+            if (item.image.isNotEmpty()) {
+                Picasso.get().load(item.image).placeholder(R.drawable.loading)
+                    .error(R.drawable.ic_person)
+                    .into(itemView.chatUserImage)
+            } else {
+                itemView.chatUserImage.setImageResource(R.drawable.ic_big_person)
+            }
             itemView.setOnClickListener { itemClickListener.onItemClick(item) }
         }
     }

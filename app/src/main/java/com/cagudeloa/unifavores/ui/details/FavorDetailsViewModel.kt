@@ -20,6 +20,10 @@ class FavorDetailsViewModel : ViewModel() {
     val result: LiveData<Exception?>
         get() = _result
 
+    private val _image = MutableLiveData<String>()
+    val image: LiveData<String>
+        get() = _image
+
 
     fun changeFavorToAssigned(favor: Favor) {
         val databaseReference =
@@ -41,6 +45,19 @@ class FavorDetailsViewModel : ViewModel() {
                             _result.value = it.exception
                         }
                     }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    fun loadFavorCreatorImage(userID: String) {
+        val databaseReference =
+            FirebaseDatabase.getInstance().getReference(NODE_USERS).child(userID)
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val username = snapshot.getValue(User::class.java)
+                _image.value = username!!.image
             }
 
             override fun onCancelled(error: DatabaseError) {}
