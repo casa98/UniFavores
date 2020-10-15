@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
@@ -56,6 +57,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // To hide keyboard easily
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC2'
