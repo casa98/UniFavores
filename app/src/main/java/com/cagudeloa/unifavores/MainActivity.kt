@@ -40,15 +40,14 @@ class MainActivity : AppCompatActivity() {
             val currentUser = FirebaseAuth.getInstance().currentUser!!
             headerView.email_header.text = currentUser.email
             FirebaseDatabase.getInstance().getReference(NODE_USERS).child(currentUser.uid)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val username = snapshot.child("username").value.toString()
                         headerView.name_header.text = username
                         val imageURL =
                             snapshot.child("image").value.toString()    // Load with Picasso
-                        if(imageURL.isNotEmpty()){
-                            Picasso.get().load(imageURL).placeholder(R.drawable.someone)
-                                .error(R.drawable.someone).into(headerView.image_header)
+                        if (imageURL.isNotEmpty()) {
+                            Picasso.get().load(imageURL).into(headerView.image_header)
                         }
                     }
 

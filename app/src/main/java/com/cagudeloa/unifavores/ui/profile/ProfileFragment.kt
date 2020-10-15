@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +12,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.auth.LoginActivity
 import com.cagudeloa.unifavores.databinding.FragmentProfileBinding
+import com.cagudeloa.unifavores.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
 
@@ -41,7 +43,7 @@ class ProfileFragment : Fragment() {
         binding.lifecycleOwner = this
 
         storage = FirebaseStorage.getInstance()
-        storageReference = storage.reference
+        storageReference = storage.reference.child("images/")
 
         return binding.root
     }
@@ -50,7 +52,6 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.changePhotoButton.setOnClickListener {
-            //Toast.makeText(requireContext(), "Sorry friend, not yet", Toast.LENGTH_SHORT).show()
             choosePicture()
         }
 
@@ -81,16 +82,24 @@ class ProfileFragment : Fragment() {
     }
 
     private fun uploadPicture(data: Uri) {
-        val riversRef =
-            storageReference.child("images/${currentUser.uid}")
-        riversRef.putFile(data)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Image uploaded :)", Toast.LENGTH_LONG).show()
+        val ref = storageReference.child(currentUser.uid)
+        val uploadTask = ref.putFile(data)
+        val urlTask = uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
             }
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), "Error uploading pic", Toast.LENGTH_LONG)
-                    .show()
+            ref.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                val hashMap: HashMap<String, Any> = HashMap()
+                hashMap["image"] = downloadUri.toString()
+                FirebaseDatabase.getInstance().reference.child(NODE_USERS).child(currentUser.uid)
+                    .updateChildren(hashMap)
             }
+        }
 
     }
 }
