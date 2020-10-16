@@ -1,7 +1,6 @@
 package com.cagudeloa.unifavores
 
 import com.cagudeloa.unifavores.Constants.Companion.BASE_URL
-import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

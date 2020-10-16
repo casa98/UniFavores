@@ -17,8 +17,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.header_layout.view.*
+
+const val TOPIC = "/topics/myTopic"
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         if (auth.uid != null) {
             setContentView(R.layout.activity_main)
+            FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
             val toolbar: Toolbar = findViewById(R.id.toolbar)
             setSupportActionBar(toolbar)
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
