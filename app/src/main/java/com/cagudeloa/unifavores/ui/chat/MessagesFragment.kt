@@ -1,6 +1,7 @@
 package com.cagudeloa.unifavores.ui.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
+import com.cagudeloa.unifavores.RetrofitInstance
 import com.cagudeloa.unifavores.databinding.FragmentMessagesBinding
+import com.cagudeloa.unifavores.model.NotificationData
+import com.cagudeloa.unifavores.model.PushNotification
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil
+
+const val TOPIC = "/topics/myTopic"
 
 class MessagesFragment : Fragment() {
 
@@ -70,6 +80,14 @@ class MessagesFragment : Fragment() {
             val message = binding.messageEdit.text.toString()
             if (message.isNotEmpty()) {
                 viewModel.sendMessage(userID, message)
+
+                PushNotification(
+                    NotificationData("Hello, title", message),
+                    TOPIC
+                ).also {
+                    sendNotification(it)
+                }
+
                 binding.messageEdit.setText("")
                 binding.messageEdit.hint = getString(R.string.type_a_message)
             } else {
@@ -77,6 +95,20 @@ class MessagesFragment : Fragment() {
             }
         }
     }
+
+    private fun sendNotification(notification: PushNotification) =
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitInstance.api.postNotification(notification)
+                if (response.isSuccessful) {
+                    Log.i("All good", "Response: ${Gson().toJson(response)}")
+                } else {
+                    Log.i("Error in response", response.errorBody().toString())
+                }
+            } catch (e: Exception) {
+                Log.i("Error in try", e.toString())
+            }
+        }
 
     private fun setupRecyclerView() {
         binding.chatRecyclerView.layoutManager =
