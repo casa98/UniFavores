@@ -33,7 +33,9 @@ class StatisticsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        // Load all users
         viewModel.getUsersList()
+        // Then observe for the lv variable related, and update UI
         viewModel.users.observe(viewLifecycleOwner) { usersList ->
             if (isAdded) {
                 val chatsAdapter =

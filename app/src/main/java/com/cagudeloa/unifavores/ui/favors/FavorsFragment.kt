@@ -33,6 +33,11 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         if (isAdded)
             setupRecyclerView()
 
+        /**
+         * The floatingActionButton to ask for new favors, will be visible
+         * only if currentUser score > 0, so I need to check it out to know
+         * whether to show it or not
+         */
         viewModel.getUserScore()
         viewModel.canAskFavor.observe(viewLifecycleOwner) { canAskForFavor ->
             if (!canAskForFavor)
@@ -49,9 +54,12 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        // Go Firebase and bring the favors to populate recycler view
         viewModel.fetchFavors()
+        // Observe a LiveData arrayList to show favors list
         viewModel.favors.observe(viewLifecycleOwner) { favorsList ->
             if (!favorsList.isNullOrEmpty()) {
+                // Hide message if there are favors to show
                 fragmentFavorsSecond.visibility = View.GONE
                 if (isAdded) {
                     val favorsAdapter =
@@ -59,6 +67,7 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
                     myRecyclerView.adapter = favorsAdapter
                 }
             } else {
+                // No favors to display, display a message
                 fragmentFavorsSecond.visibility = View.VISIBLE
             }
         }
@@ -75,6 +84,7 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         )
     }
 
+    // Executed when user click on a favor, it'll redirect to FavorDetailsFragment and send the favor
     override fun onItemClick(favor: Favor) {
         val bundle = Bundle()
         bundle.putParcelable("favor", favor)

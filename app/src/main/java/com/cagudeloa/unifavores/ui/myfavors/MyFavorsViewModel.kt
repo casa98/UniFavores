@@ -54,6 +54,7 @@ class MyFavorsViewModel : ViewModel() {
         })
     }
 
+    // If a favor that I asked for, hasn't been assigned, I can deleted it. USER WON'T RECOVER POINTS
     fun deleteFavor(favor: Favor) {
         val databaseReference =
             FirebaseDatabase.getInstance().getReference(NODE_FAVORS).child(favor.key)

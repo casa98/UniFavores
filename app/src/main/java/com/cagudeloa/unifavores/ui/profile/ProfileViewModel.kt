@@ -62,6 +62,7 @@ class ProfileViewModel: ViewModel() {
         _eventSignOut.value = true
     }
 
+    // ViewModel stuff
     fun signOutEvent(){
         _eventSignOut.value = false
     }

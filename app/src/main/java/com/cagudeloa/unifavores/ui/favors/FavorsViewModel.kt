@@ -18,10 +18,12 @@ class FavorsViewModel : ViewModel() {
     private lateinit var auth: FirebaseAuth
     private val databaseReference = FirebaseDatabase.getInstance().getReference(NODE_FAVORS)
 
+    // I'll store here favors to then update UI
     private val _favors = MutableLiveData<ArrayList<Favor>>()
     val favors: LiveData<ArrayList<Favor>>
         get() = _favors
 
+    // Can current user ask for a favor? Check its score
     private val _canAskFavor = MutableLiveData<Boolean>()
     val canAskFavor: LiveData<Boolean>
         get() = _canAskFavor

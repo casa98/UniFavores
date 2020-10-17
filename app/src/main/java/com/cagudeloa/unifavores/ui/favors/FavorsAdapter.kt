@@ -12,10 +12,11 @@ import kotlinx.android.synthetic.main.item_recycler.view.*
 
 class FavorsAdapter(
     private val context: Context,
-    private val itemClickListener: OnItemClickListener,
+    private val itemClickListener: OnItemClickListener,     // Used for item clicks
     private val favor: ArrayList<Favor>
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
+    // Used for item clicks, implementation in FavorsFragment
     interface OnItemClickListener {
         fun onItemClick(favor: Favor)
     }

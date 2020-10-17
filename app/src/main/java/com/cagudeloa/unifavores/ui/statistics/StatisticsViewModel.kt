@@ -33,6 +33,7 @@ class StatisticsViewModel : ViewModel() {
                     }
                     // Sort users list by its score in desc order
                     val sortedUsers = users.sortedWith(compareBy { it.score }).reversed()
+                    // Set users in the lv arrayList, so fragment knows about it, and then set it in recycler view
                     _users.value = sortedUsers
                 }
 

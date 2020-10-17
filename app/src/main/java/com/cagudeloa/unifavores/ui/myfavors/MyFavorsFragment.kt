@@ -41,6 +41,7 @@ class MyFavorsFragment : Fragment(), MyFavorsAdapter.OnItemClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        // All similar to most of views, check another packages if any doubts
         viewModel.fetchMyFavors()
         viewModel.favors.observe(viewLifecycleOwner) { myFavorsList ->
             if (!myFavorsList.isNullOrEmpty()) {

@@ -50,6 +50,7 @@ class FirebaseService : FirebaseMessagingService() {
         // If I used same ID, a new notification would overwrite the older one
         val notificationID = Random.nextInt()
 
+        // From Android OREO+, a notification channel has to be created
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel(notificationManager)
 

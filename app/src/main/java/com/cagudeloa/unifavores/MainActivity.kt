@@ -30,16 +30,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         if (auth.uid != null) {
             setContentView(R.layout.activity_main)
+
+            // Set up this user to receive notifications intended for itself
             val token = "/topics/${auth.currentUser!!.uid}"
             FirebaseMessaging.getInstance().subscribeToTopic(token)
+
+            // Setup everything related to NavDrawer, actionbar with NavController, and so on
             val toolbar: Toolbar = findViewById(R.id.toolbar)
             setSupportActionBar(toolbar)
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
             val navView: NavigationView = findViewById(R.id.nav_view)
 
+
             //TODO find the way to do it using some Architecture (OHHH, USING LIVEDATA AND DATABINBING DIRECTLY)
+
+            // Set data in NavDrawer's header
             val headerView = navView.getHeaderView(0)
-            // Get user name and image (someday, why not) from model. Email from Firebase.
             val currentUser = FirebaseAuth.getInstance().currentUser!!
             headerView.email_header.text = currentUser.email
             FirebaseDatabase.getInstance().getReference(NODE_USERS).child(currentUser.uid)

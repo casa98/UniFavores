@@ -59,6 +59,7 @@ class MessagesFragment : Fragment() {
         // Setup RecyclerView
         setupRecyclerView()
 
+        // Load messages of currentUser and userID
         viewModel.readMessage(userID)
         viewModel.messages.observe(viewLifecycleOwner) { messagesList ->
             if (!messagesList.isNullOrEmpty()) {
@@ -75,16 +76,20 @@ class MessagesFragment : Fragment() {
             }
         }
 
+        // [Send Message] button listener
         binding.sendMessageButton.setOnClickListener {
             val message = binding.messageEdit.text.toString()
             if (message.isNotEmpty()) {
                 viewModel.sendMessage(userID, message)
 
+                // Which user the notification will be sent to? userID
                 val topic = "/topics/${userID}"
                 PushNotification(
+                    // Content of the notification
                     NotificationData(otherUsername, message),
                     topic
                 ).also {
+                    // Send notification in background
                     sendNotification(it)
                 }
 
@@ -114,6 +119,7 @@ class MessagesFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
+    // Hide keyboard if chat is abandoned and it's open
     override fun onDestroy() {
         super.onDestroy()
         UIUtil.hideKeyboard(requireActivity())
