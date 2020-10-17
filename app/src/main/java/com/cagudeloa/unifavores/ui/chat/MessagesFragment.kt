@@ -12,17 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
-import com.cagudeloa.unifavores.domain.RetrofitInstance
 import com.cagudeloa.unifavores.databinding.FragmentMessagesBinding
+import com.cagudeloa.unifavores.domain.RetrofitInstance
 import com.cagudeloa.unifavores.model.NotificationData
 import com.cagudeloa.unifavores.model.PushNotification
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil
-
-const val TOPIC = "/topics/myTopic"
 
 class MessagesFragment : Fragment() {
 
@@ -83,9 +80,10 @@ class MessagesFragment : Fragment() {
             if (message.isNotEmpty()) {
                 viewModel.sendMessage(userID, message)
 
+                val topic = "/topics/${userID}"
                 PushNotification(
                     NotificationData(otherUsername, message),
-                    TOPIC
+                    topic
                 ).also {
                     sendNotification(it)
                 }
@@ -102,11 +100,10 @@ class MessagesFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = RetrofitInstance.api.postNotification(notification)
-                if (response.isSuccessful) {
-                    Log.i("All good", "Response: ${Gson().toJson(response)}")
-                } else {
+                if (!response.isSuccessful) {
                     Log.i("Error in response", response.errorBody().toString())
                 }
+                // else: Log.i("All good", "Response: ${Gson().toJson(response)}")
             } catch (e: Exception) {
                 Log.i("Error in try", e.toString())
             }

@@ -1,6 +1,5 @@
 package com.cagudeloa.unifavores.service
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
@@ -8,6 +7,7 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -20,8 +20,23 @@ import kotlin.random.Random
 
 private const val CHANNEL_ID = "my channel"
 
-@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class FirebaseService : FirebaseMessagingService() {
+
+    companion object {
+        var sharedPreferences: SharedPreferences? = null
+        var token: String?
+            get() {
+                return sharedPreferences?.getString("token", "")
+            }
+        set(value) {
+            sharedPreferences?.edit()?.putString("token", value)?.apply()
+        }
+    }
+
+    override fun onNewToken(newToken: String) {
+        super.onNewToken(newToken)
+        token = newToken
+    }
 
     /**
      * This function is called when the device receives a message
@@ -44,8 +59,9 @@ class FirebaseService : FirebaseMessagingService() {
             .setContentTitle(message.data["title"])
             .setContentText(message.data["message"])
             .setSmallIcon(R.drawable.ic_emoji)
-            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
             .build()
 
         notificationManager.notify(notificationID, notification)

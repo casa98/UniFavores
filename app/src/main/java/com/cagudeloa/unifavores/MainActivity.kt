@@ -21,8 +21,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.header_layout.view.*
 
-const val TOPIC = "/topics/myTopic"
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -32,7 +30,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         if (auth.uid != null) {
             setContentView(R.layout.activity_main)
-            FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+            val token = "/topics/${auth.currentUser!!.uid}"
+            FirebaseMessaging.getInstance().subscribeToTopic(token)
             val toolbar: Toolbar = findViewById(R.id.toolbar)
             setSupportActionBar(toolbar)
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
