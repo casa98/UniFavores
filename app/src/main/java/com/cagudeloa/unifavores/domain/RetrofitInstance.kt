@@ -1,4 +1,4 @@
-package com.cagudeloa.unifavores
+package com.cagudeloa.unifavores.domain
 
 import com.cagudeloa.unifavores.Constants.Companion.BASE_URL
 import retrofit2.Retrofit

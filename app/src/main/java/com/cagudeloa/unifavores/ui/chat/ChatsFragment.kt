@@ -65,6 +65,8 @@ class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
         val bundle = Bundle()
         bundle.putString("userID", user.uid)
         bundle.putString("username", user.username)
+        // TODO Need the currentUser username and send it (or any other way to solve it)
+        bundle.putString("otherUsername", "{{solve_from_ChatsFragment}}")
         findNavController().navigate(R.id.action_chatsFragment_to_messagesFragment, bundle)
     }
 }

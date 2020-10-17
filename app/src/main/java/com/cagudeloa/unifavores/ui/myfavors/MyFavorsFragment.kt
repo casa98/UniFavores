@@ -107,6 +107,7 @@ class MyFavorsFragment : Fragment(), MyFavorsAdapter.OnItemClickListener {
                     val bundle = Bundle()
                     bundle.putString("userID", favor.assignedUser)
                     bundle.putString("username", favor.assignedUsername)
+                    bundle.putString("otherUsername", favor.username)
                     findNavController().navigate(
                         R.id.action_myFavorsFragment_to_messagesFragment,
                         bundle

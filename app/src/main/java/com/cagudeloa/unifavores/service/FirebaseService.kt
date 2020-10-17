@@ -1,4 +1,4 @@
-package com.cagudeloa.unifavores
+package com.cagudeloa.unifavores.service
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -12,6 +12,8 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import com.cagudeloa.unifavores.MainActivity
+import com.cagudeloa.unifavores.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
@@ -41,7 +43,7 @@ class FirebaseService : FirebaseMessagingService() {
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["message"])
-            .setSmallIcon(R.drawable.ic_person)
+            .setSmallIcon(R.drawable.ic_emoji)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()

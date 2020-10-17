@@ -1,4 +1,4 @@
-package com.cagudeloa.unifavores
+package com.cagudeloa.unifavores.domain
 
 import com.cagudeloa.unifavores.Constants.Companion.CONTENT_TYPE
 import com.cagudeloa.unifavores.Constants.Companion.SERVER_KEY

@@ -103,6 +103,7 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
                     val bundle = Bundle()
                     bundle.putString("userID", favor.user)
                     bundle.putString("username", favor.username)
+                    bundle.putString("otherUsername", favor.assignedUsername)
                     findNavController().navigate(
                         R.id.action_incompletFragment_to_messagesFragment,
                         bundle

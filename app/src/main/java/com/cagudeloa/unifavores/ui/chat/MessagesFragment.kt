@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
-import com.cagudeloa.unifavores.RetrofitInstance
+import com.cagudeloa.unifavores.domain.RetrofitInstance
 import com.cagudeloa.unifavores.databinding.FragmentMessagesBinding
 import com.cagudeloa.unifavores.model.NotificationData
 import com.cagudeloa.unifavores.model.PushNotification
@@ -28,6 +28,7 @@ class MessagesFragment : Fragment() {
 
     private lateinit var userID: String
     private lateinit var username: String
+    private lateinit var otherUsername: String
     private lateinit var binding: FragmentMessagesBinding
     private lateinit var viewModel: MessagesViewModel
 
@@ -40,6 +41,7 @@ class MessagesFragment : Fragment() {
         requireArguments().let {
             userID = it.getString("userID")!!
             username = it.getString("username")!!
+            otherUsername = it.getString("otherUsername")!!
         }
         (activity as AppCompatActivity).supportActionBar?.title = username
     }
@@ -82,7 +84,7 @@ class MessagesFragment : Fragment() {
                 viewModel.sendMessage(userID, message)
 
                 PushNotification(
-                    NotificationData("Hello, title", message),
+                    NotificationData(otherUsername, message),
                     TOPIC
                 ).also {
                     sendNotification(it)
