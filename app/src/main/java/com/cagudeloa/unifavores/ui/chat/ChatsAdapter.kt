@@ -11,6 +11,9 @@ import com.cagudeloa.unifavores.base.BaseViewHolder
 import com.cagudeloa.unifavores.model.User
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.chat_item.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -34,23 +37,25 @@ class ChatsAdapter(
         @SuppressLint("SetTextI18n")
         override fun bind(item: User, position: Int) {
             itemView.chatUsernameText.text = item.username
-            if(item.score.toString() == "-1"){
+            if (item.score.toString() == "-1") {
                 // Comes from ChatsFragment and..
                 // It's a favor that someone is making to the currentUser
-                itemView.chatSecondText.text = "Me están haciendo este favor"
-            }else if (item.score.toString() == "-2"){
+                itemView.chatSecondText.text = "Me está haciendo un favor"
+            } else if (item.score.toString() == "-2") {
                 // Comes from ChatsFragment and..
                 // It's a favor that currentUser is making to someone else
-                itemView.chatSecondText.text = "Estoy haciendo este favor"
-            }else{
+                itemView.chatSecondText.text = "Le estoy haciendo un favor"
+            } else {
                 // Comes from StatisticsFragment, show everything
                 itemView.chatSecondText.text = item.score.toString() + " puntos"
             }
             //itemView.chatUserImage.setImageResource(R.drawable.someone)
             if (item.image.isNotEmpty()) {
-                Picasso.get().load(item.image).placeholder(R.drawable.loading)
-                    .error(R.drawable.ic_person)
-                    .into(itemView.chatUserImage)
+                GlobalScope.launch(Dispatchers.Main) {
+                    Picasso.get().load(item.image).placeholder(R.drawable.loading)
+                        .error(R.drawable.ic_person)
+                        .into(itemView.chatUserImage)
+                }
             } else {
                 itemView.chatUserImage.setImageResource(R.drawable.ic_big_person)
             }

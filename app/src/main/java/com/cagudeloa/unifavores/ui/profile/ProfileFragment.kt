@@ -81,11 +81,12 @@ class ProfileFragment : Fragment() {
         viewModel.image.observe(viewLifecycleOwner) { image ->
             if (image.isNotEmpty()) {
                 GlobalScope.launch(Dispatchers.Main) {
-                    Picasso.get().load(image).placeholder(R.drawable.loading).error(R.drawable.no_photo)
+                    Picasso.get().load(image).placeholder(R.drawable.loading)
+                        .error(R.drawable.ic_big_person)
                         .into(binding.profilePhoto)
                 }
-            }else{
-                binding.profilePhoto.setImageResource(R.drawable.no_photo)
+            } else {
+                binding.profilePhoto.setImageResource(R.drawable.ic_big_person)
             }
         }
     }
@@ -103,8 +104,11 @@ class ProfileFragment : Fragment() {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             uploadPicture(data.data!!)
             // User selected an image from gallery, set it on the view
-            Picasso.get().load(data.data).placeholder(R.drawable.loading).error(R.drawable.no_photo)
-                .into(binding.profilePhoto)
+            GlobalScope.launch(Dispatchers.Main) {
+                Picasso.get().load(data.data).placeholder(R.drawable.loading)
+                    .error(R.drawable.ic_big_person)
+                    .into(binding.profilePhoto)
+            }
         }
     }
 

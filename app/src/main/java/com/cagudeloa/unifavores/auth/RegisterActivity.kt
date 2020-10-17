@@ -5,96 +5,77 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.cagudeloa.unifavores.MainActivity
-import com.cagudeloa.unifavores.NODE_USERS
 import com.cagudeloa.unifavores.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var databaseReference: DatabaseReference
+    private lateinit var viewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
     override fun onStart() {
         super.onStart()
-        auth = FirebaseAuth.getInstance()
+        // User click on Register button
         login_button.setOnClickListener {
             val username = usernameEdit.text.toString()
             val email = email_text.text.toString()
             val password1 = password_text.text.toString()
             val password2 = confirm_password_text.text.toString()
-            // TODO Improve this validations
-            if (password1 == password2)
-                if (password1.length > 5)
-                    if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
-                        if (username.length > 4)
-                            registerUser(username, email, password1)
-                        else
-                            Toast.makeText(this, "Please, enter a longer name", Toast.LENGTH_LONG)
-                                .show()
-                    else
-                        Toast.makeText(this, "Please, enter a valid email", Toast.LENGTH_LONG)
-                            .show()
-                else
-                    Toast.makeText(this, "Please, enter a longer password", Toast.LENGTH_LONG)
-                        .show()
-            else
-                Toast.makeText(this, "Passwords don't match", Toast.LENGTH_LONG).show()
+
+            val answer = isValid(username, email, password1, password2)
+            if (answer == null) {      // Valid form
+                showAndHide(View.GONE)
+                registerProgressBarLayout.visibility = View.VISIBLE
+                viewModel.requestRegister(username, email, password1)
+                viewModel.registerSuccess.observe(this, Observer { authResult ->
+                    if (authResult == null) {     // Success
+                        registerProgressBarLayout.visibility = View.GONE
+                        navigateToHome()
+                    } else {  // Error
+                        registerProgressBarLayout.visibility = View.GONE
+                        showAndHide(View.VISIBLE)
+                        Toast.makeText(
+                            this,
+                            "User couldn't be created\n$authResult",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                })
+            } else {
+                Toast.makeText(this, answer, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
-    private fun registerUser(username: String, email: String, password: String) {
-        showAndHide(View.GONE)
-        registerProgressBarLayout.visibility = View.VISIBLE
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { createUser ->
-                if (createUser.isSuccessful) {
-                    // Create a collection whose ID is the userId (which is unique)
-                    val uid = auth.currentUser!!.uid
+    private fun isValid(
+        username: String,
+        email: String,
+        password1: String,
+        password2: String
+    ): String? {
+        if (username.length < 5)
+            return "Ingresa un nombre más largo"
+        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            return "Correo inválido"
+        else if (password1.length < 5)
+            return "Contraseña demasiado corta"
+        else if (password1 != password2)
+            return "las contraseñas no coinciden"
+        return null
+    }
 
-                    databaseReference =
-                        FirebaseDatabase.getInstance().getReference(NODE_USERS).child(uid)
-                    // I'll save some data here to then, save in on db
-                    val hashMap: HashMap<String, Any> = HashMap()
-                    hashMap["uid"] = uid
-                    hashMap["username"] = username
-                    hashMap["image"] = ""
-                    hashMap["score"] = 2
-                    databaseReference.setValue(hashMap).addOnCompleteListener(this) { result ->
-                        if (result.isSuccessful) {
-                            registerProgressBarLayout.visibility = View.GONE
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            registerProgressBarLayout.visibility = View.GONE
-                            showAndHide(View.VISIBLE)
-                            Toast.makeText(
-                                this,
-                                "User couldn't be created\n${result.exception!!.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
-
-                } else {
-                    registerProgressBarLayout.visibility = View.GONE
-                    showAndHide(View.VISIBLE)
-                    Toast.makeText(
-                        this,
-                        "User couldn't be created\n${createUser.exception}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
+    private fun navigateToHome() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun showAndHide(state: Int) {
