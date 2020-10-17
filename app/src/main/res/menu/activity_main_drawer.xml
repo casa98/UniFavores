@@ -32,7 +32,7 @@
         <item
             android:id="@+id/chatsFragment"
             android:icon="@drawable/ic_chat"
-            android:title="@string/chat_con_voluntarios" />
+            android:title="@string/current_chats" />
     </group>
 
     <group

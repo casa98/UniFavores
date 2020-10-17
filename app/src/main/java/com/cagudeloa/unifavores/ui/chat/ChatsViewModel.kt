@@ -24,16 +24,28 @@ class ChatsViewModel : ViewModel() {
 
 
     fun getUsersList() {
+        /**
+         * The most confusing function till the moment (It was edited, was even worst)
+         * Which chats will user see?
+         * First, take only favors where status == -1 (active, assigned)
+         * Then get favor when currentUser is creator or is making it
+         */
         auth = FirebaseAuth.getInstance().currentUser!!
         val databaseReference = FirebaseDatabase.getInstance().getReference(NODE_FAVORS)
-        databaseReference.orderByChild(FAVOR_USER)
-            .equalTo(auth.uid).addValueEventListener(object : ValueEventListener {
+        databaseReference.orderByChild("status")
+            .equalTo("-1").addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    // Here I'm getting only assigned favors, the ony ones I care for chatting
                     val chatsWith = ArrayList<String>()
                     for (dataSnapshot: DataSnapshot in snapshot.children) {
-                        val favor = dataSnapshot.getValue(Favor::class.java)
-                        if (favor!!.status.toInt() == -1) {
+                        val favor = dataSnapshot.getValue(Favor::class.java)!!
+                        // Favors i requested, add the assignedUser that is making it
+                        if (favor.user == auth.uid) {
                             chatsWith.add(favor.assignedUser)
+                        }
+                        // Favors I'm doing, add users who requested them
+                        if (favor.assignedUser == auth.uid) {
+                            chatsWith.add(favor.user)
                         }
                     }
 
@@ -43,8 +55,11 @@ class ChatsViewModel : ViewModel() {
                                 val users = ArrayList<User>()
                                 for (dataSnapshot: DataSnapshot in snapshot.children) {
                                     val user = dataSnapshot.getValue((User::class.java))
-                                    if (chatsWith.contains(user!!.uid))
+                                    if (chatsWith.contains(user!!.uid)) {
+                                        // TODO Change user.score depending on if currentUser is making favor, or the other thing
+                                        // To show it instead of the score, Score will shown in StatisticsFragment
                                         users.add(user)
+                                    }
                                 }
                                 users.toList().reversed()
                                 _users.value = users

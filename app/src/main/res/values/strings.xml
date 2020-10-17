@@ -33,7 +33,7 @@
     <string name="perfil">Perfil</string>
     <string name="favores_sin_completar">Favores sin completar</string>
     <string name="estadisticas">Estadísticas</string>
-    <string name="chat_con_voluntarios">Chat con voluntarios</string>
+    <string name="current_chats">Chats activos</string>
     <string name="default_email">armandoestanquito@mail.com</string>
     <string name="default_name">Armado Esteban Quito</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -42,6 +42,6 @@
     <string name="no_favor_yet">No has pedido ningún favor aún :)</string>
     <string name="estado">ESTADO:</string>
     <string name="no_messages_yet">No hay mensajes aún, saluda!</string>
-    <string name="chats_with_volunteers_label">Aquí aparecerán los chats de las personas que te están haciendo algún favor, nada por ahora :(</string>
+    <string name="chats_with_volunteers_label">Aquí aparecerán chats con las personas que te están haciendo, o les estás haciendo algún favor</string>
     <string name="ask_for_a_favor">Ask for a favor</string>
 </resources>

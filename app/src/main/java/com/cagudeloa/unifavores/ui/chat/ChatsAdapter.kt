@@ -12,6 +12,14 @@ import com.cagudeloa.unifavores.model.User
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.chat_item.view.*
 
+/**
+ *
+ * This score is being used for two fragments
+ * - Statistics
+ * - Chats
+ *
+ * That's why you'll see a couple of maybe unrecommended tricks :c
+ */
 class ChatsAdapter(
     private val context: Context,
     private val itemClickListener: ChatsAdapter.OnItemClickListener,
@@ -26,7 +34,18 @@ class ChatsAdapter(
         @SuppressLint("SetTextI18n")
         override fun bind(item: User, position: Int) {
             itemView.chatUsernameText.text = item.username
-            itemView.chatSecondText.text = item.score.toString() + " puntos"
+            if(item.score.toString() == "-1"){
+                // Comes from ChatsFragment and..
+                // It's a favor that someone is making to the currentUser
+                itemView.chatSecondText.text = "Me están haciendo este favor"
+            }else if (item.score.toString() == "-2"){
+                // Comes from ChatsFragment and..
+                // It's a favor that currentUser is making to someone else
+                itemView.chatSecondText.text = "Estoy haciendo este favor"
+            }else{
+                // Comes from StatisticsFragment, show everything
+                itemView.chatSecondText.text = item.score.toString() + " puntos"
+            }
             //itemView.chatUserImage.setImageResource(R.drawable.someone)
             if (item.image.isNotEmpty()) {
                 Picasso.get().load(item.image).placeholder(R.drawable.loading)
