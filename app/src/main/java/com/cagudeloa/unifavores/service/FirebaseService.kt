@@ -59,6 +59,7 @@ class FirebaseService : FirebaseMessagingService() {
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["message"])
+            .setStyle(NotificationCompat.BigTextStyle())
             .setSmallIcon(R.drawable.ic_emoji)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)

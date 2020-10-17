@@ -1,6 +1,7 @@
 package com.cagudeloa.unifavores.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentFavorDetailsBinding
+import com.cagudeloa.unifavores.domain.RetrofitInstance
 import com.cagudeloa.unifavores.model.Favor
+import com.cagudeloa.unifavores.model.NotificationData
+import com.cagudeloa.unifavores.model.PushNotification
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FavorDetailsFragment : Fragment() {
 
@@ -59,10 +66,28 @@ class FavorDetailsFragment : Fragment() {
                 binding.circleImageView.setImageResource(R.drawable.ic_big_person)
             }
         }
+        // Current user is checking this favor and decided to do it
         binding.doFavorButton.setOnClickListener {
             viewModel.changeFavorToAssigned(favor)
             viewModel.result.observe(viewLifecycleOwner) {
-                if (it == null) {
+                if (it != "") {    // Means the favor creator username is it
+
+
+                    // Send a notification to favor.user
+                    val topic = "/topics/${favor.user}"
+                    PushNotification(
+                        // Content of the notification
+                        NotificationData(
+                            "Hola, ${favor.username}",
+                            "$it te está realizando el favor:\n${favor.favorTitle}"
+                        ),
+                        topic
+                    ).also { data ->
+                        // Send notification in background
+                        sendNotification(data)
+                    }
+
+                    // Show a message
                     Snackbar.make(
                         view,
                         "Revisa este favor y chatea con ${binding.favorCreatorText.text} yendo al Menú",
@@ -70,8 +95,22 @@ class FavorDetailsFragment : Fragment() {
                     ).setAction("Action", null).show()
                     binding.doFavorButton.visibility = View.GONE
                 } else {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Algo salió mal :(", Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+
+    private fun sendNotification(notification: PushNotification) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitInstance.api.postNotification(notification)
+                if (!response.isSuccessful) {
+                    Log.i("Error in response", response.errorBody().toString())
+                }
+                // else: Log.i("All good", "Response: ${Gson().toJson(response)}")
+            } catch (e: Exception) {
+                Log.i("Error in try", e.toString())
             }
         }
     }

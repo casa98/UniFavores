@@ -16,8 +16,8 @@ class FavorDetailsViewModel : ViewModel() {
 
     private var userID: String = FirebaseAuth.getInstance().currentUser!!.uid
 
-    private val _result = MutableLiveData<Exception?>()
-    val result: LiveData<Exception?>
+    private val _result = MutableLiveData<String>()
+    val result: LiveData<String>
         get() = _result
 
     private val _image = MutableLiveData<String>()
@@ -33,6 +33,7 @@ class FavorDetailsViewModel : ViewModel() {
         hashMap[FAVOR_STATUS] = "-1"
         val secondDBReference =
             FirebaseDatabase.getInstance().getReference(NODE_USERS).child(userID)
+        // Now I have the user who's making the favor, get its username
         secondDBReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val username = snapshot.getValue(User::class.java)
@@ -40,9 +41,7 @@ class FavorDetailsViewModel : ViewModel() {
                 databaseReference.updateChildren(hashMap)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            _result.value = null    // Success
-                        } else {
-                            _result.value = it.exception
+                            _result.value = username.username    // Success
                         }
                     }
             }
