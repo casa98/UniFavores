@@ -1,6 +1,5 @@
 package com.cagudeloa.unifavores.ui.incompleteFavors
 
-import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.model.Favor
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_incomplete_favors.*
 
 class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClickListener {
@@ -68,14 +68,14 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
      * Another for confirming the favor completion
      */
     override fun onItemClick(favor: Favor) {
-        val builder = AlertDialog.Builder(requireContext())
+        val builder = MaterialAlertDialogBuilder(requireContext())
         builder.setTitle("¿Qué deseas hacer?")
         builder.setItems(
             arrayOf("  Marcar como completado", "  Chatear"),
             DialogInterface.OnClickListener { _, i ->
                 if (i == 0) {
                     // Show a confirmation dialog
-                    val secondBuilder = AlertDialog.Builder(requireContext())
+                    val secondBuilder = MaterialAlertDialogBuilder(requireContext())
                     secondBuilder.setTitle("¿Seguro que has completado este favor?\n")
                     secondBuilder.setNegativeButton("No", null)
                     secondBuilder.setPositiveButton("Sí") { _, _ ->

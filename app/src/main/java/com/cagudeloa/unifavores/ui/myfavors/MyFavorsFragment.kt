@@ -1,6 +1,5 @@
 package com.cagudeloa.unifavores.ui.myfavors
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +15,7 @@ import com.cagudeloa.unifavores.COMPLETED
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.UNASSIGNED
 import com.cagudeloa.unifavores.model.Favor
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_my_favors.*
 
 class MyFavorsFragment : Fragment(), MyFavorsAdapter.OnItemClickListener {
@@ -77,15 +77,16 @@ class MyFavorsFragment : Fragment(), MyFavorsAdapter.OnItemClickListener {
          * Do nothing if favor is completed
          */
         if (favor.status != COMPLETED) {
-            val builder = AlertDialog.Builder(requireContext())
+            val builder = MaterialAlertDialogBuilder(requireContext())
             if (favor.status == UNASSIGNED) {
-                builder.setTitle("¿Deseas cancelar y eliminar este favor?\n")
+                builder.setTitle("¿Deseas eliminar este favor?")
+                builder.setMessage("No recuperarás los puntos")
                 builder.setNegativeButton("No", null)
                 builder.setPositiveButton("Sí") { _, _ ->
                     // Go db delete this favor
                     viewModel.deleteFavor(favor)
-                    viewModel.result.observe(this){
-                        if(it == null){
+                    viewModel.result.observe(this) {
+                        if (it == null) {
                             Toast.makeText(
                                 requireContext(),
                                 "Favor eliminado",

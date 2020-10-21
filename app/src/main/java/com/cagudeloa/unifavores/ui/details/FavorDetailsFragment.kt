@@ -67,7 +67,8 @@ class FavorDetailsFragment : Fragment() {
             }
         }
         // Current user is checking this favor and decided to do it
-        binding.doFavorButton.setOnClickListener {
+        binding.doFavorButton.setOnClickListener {doFavor ->
+            doFavor.visibility = View.INVISIBLE
             viewModel.changeFavorToAssigned(favor)
             viewModel.result.observe(viewLifecycleOwner) {
                 if (it != "") {    // Means the favor creator username is it
@@ -96,6 +97,7 @@ class FavorDetailsFragment : Fragment() {
                     binding.doFavorButton.visibility = View.GONE
                 } else {
                     Toast.makeText(requireContext(), "Algo salió mal :(", Toast.LENGTH_SHORT).show()
+                    doFavor.visibility = View.INVISIBLE
                 }
             }
         }
