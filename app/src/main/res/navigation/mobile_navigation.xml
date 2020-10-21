@@ -17,13 +17,16 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_nav_home_to_addFavor"
+            app:destination="@id/addFavor" />
     </fragment>
 
-    <fragment
+    <dialog
         android:id="@+id/addFavor"
         android:name="com.cagudeloa.unifavores.ui.addfavor.AddFavorFragment"
         android:label="Pide un favor"
-        tools:layout="@layout/fragment_add_favor" />
+        tools:layout="@layout/add_favor_dialog" />
     <fragment
         android:id="@+id/favorDetailsFragment"
         android:name="com.cagudeloa.unifavores.ui.details.FavorDetailsFragment"

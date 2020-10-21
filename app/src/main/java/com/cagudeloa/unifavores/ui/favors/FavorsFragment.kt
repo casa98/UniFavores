@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +46,7 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         }
 
         floatingActionButton.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.addFavor)
+            findNavController().navigate(R.id.action_nav_home_to_addFavor)
         }
 
     }

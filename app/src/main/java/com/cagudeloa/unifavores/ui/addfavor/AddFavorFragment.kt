@@ -5,16 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.model.Favor
-import kotlinx.android.synthetic.main.fragment_add_favor.*
-import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.add_favor_dialog.*
 
-class AddFavorFragment : Fragment() {
+class AddFavorFragment : BottomSheetDialogFragment() {
 
     private lateinit var viewModel: AddFavorViewModel
 
@@ -24,7 +21,7 @@ class AddFavorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this).get(AddFavorViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_add_favor, container, false)
+        return inflater.inflate(R.layout.add_favor_dialog, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -48,29 +45,11 @@ class AddFavorFragment : Fragment() {
                 favor.favorDescription = description
                 favor.favorLocation = location
                 viewModel.addFavor(favor)
+                Toast.makeText(requireContext(), " Favor creado exitosamente", Toast.LENGTH_SHORT)
+                    .show()
             }
+            // Close Dialog
+            dismiss()
         }
-
-        viewModel.result.observe(viewLifecycleOwner) {
-            if (it == null) {
-                Toast.makeText(
-                    requireContext(),
-                    " Favor creado exitosamente",
-                    Toast.LENGTH_SHORT
-                ).show()
-                findNavController().navigateUp()
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Este favor no se creó\nIntenta de nuevo",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        UIUtil.hideKeyboard(requireActivity())
     }
 }
