@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentMessagesBinding
@@ -35,11 +36,10 @@ class MessagesFragment : Fragment() {
          * Get here via arguments the favor creator ID,
          * so that the conversation will be with it and current user
          */
-        requireArguments().let {
-            userID = it.getString("userID")!!
-            username = it.getString("username")!!
-            otherUsername = it.getString("otherUsername")!!
-        }
+        val args: MessagesFragmentArgs by navArgs()
+        userID = args.userID
+        username = args.username
+        otherUsername = args.otherUsername
         (activity as AppCompatActivity).supportActionBar?.title = username
     }
 

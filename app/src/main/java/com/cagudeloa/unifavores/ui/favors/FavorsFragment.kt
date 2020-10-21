@@ -4,18 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
+import com.cagudeloa.unifavores.databinding.FragmentFavorsBinding
 import com.cagudeloa.unifavores.model.Favor
-import kotlinx.android.synthetic.main.fragment_favors.*
 
 class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
 
+    private lateinit var binding: FragmentFavorsBinding
     private lateinit var viewModel: FavorsViewModel
 
     override fun onCreateView(
@@ -23,8 +26,9 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favors, container, false)
         viewModel = ViewModelProvider(this).get(FavorsViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_favors, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,13 +44,15 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         viewModel.getUserScore()
         viewModel.canAskFavor.observe(viewLifecycleOwner) { canAskForFavor ->
             if (!canAskForFavor)
-                floatingActionButton.visibility = View.GONE
+                binding.floatingActionButton.visibility = View.GONE
             else
-                floatingActionButton.visibility = View.VISIBLE
+                binding.floatingActionButton.visibility = View.VISIBLE
         }
 
-        floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_home_to_addFavor)
+        binding.floatingActionButton.setOnClickListener { askFavor ->
+            askFavor.findNavController().navigate(
+                FavorsFragmentDirections.actionNavHomeToAddFavor()
+            )
         }
 
     }
@@ -59,23 +65,23 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
         viewModel.favors.observe(viewLifecycleOwner) { favorsList ->
             if (!favorsList.isNullOrEmpty()) {
                 // Hide message if there are favors to show
-                fragmentFavorsSecond.visibility = View.GONE
+                binding.fragmentFavorsSecond.visibility = View.GONE
                 if (isAdded) {
                     val favorsAdapter =
                         FavorsAdapter(requireContext(), this@FavorsFragment, favorsList)
-                    myRecyclerView.adapter = favorsAdapter
+                    binding.myRecyclerView.adapter = favorsAdapter
                 }
             } else {
                 // No favors to display, display a message
-                fragmentFavorsSecond.visibility = View.VISIBLE
+                binding.fragmentFavorsSecond.visibility = View.VISIBLE
             }
         }
     }
 
     private fun setupRecyclerView() {
-        myRecyclerView.layoutManager =
+        binding.myRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        myRecyclerView.addItemDecoration(
+        binding.myRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.VERTICAL
@@ -85,8 +91,11 @@ class FavorsFragment : Fragment(), FavorsAdapter.OnItemClickListener {
 
     // Executed when user click on a favor, it'll redirect to FavorDetailsFragment and send the favor
     override fun onItemClick(favor: Favor) {
-        val bundle = Bundle()
-        bundle.putParcelable("favor", favor)
-        findNavController().navigate(R.id.action_navigation_home_to_favorDetailsFragment, bundle)
+        findNavController().navigate(
+            FavorsFragmentDirections.actionNavigationHomeToFavorDetailsFragment(
+                // Pass data using SafeArgs
+                favor
+            )
+        )
     }
 }

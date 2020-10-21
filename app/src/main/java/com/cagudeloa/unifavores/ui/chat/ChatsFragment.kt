@@ -62,11 +62,13 @@ class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(user: User) {
-        val bundle = Bundle()
-        bundle.putString("userID", user.uid)
-        bundle.putString("username", user.username)
-        // TODO Need the currentUser username and send it (or any other way to solve it)
-        bundle.putString("otherUsername", "Nuevo mensaje")
-        findNavController().navigate(R.id.action_chatsFragment_to_messagesFragment, bundle)
+        findNavController().navigate(
+            ChatsFragmentDirections.actionChatsFragmentToMessagesFragment(
+                user.uid,
+                user.username,
+                // TODO Need the currentUser username and send it (or any other way to solve it)
+                "Nuevo mensaje"
+            )
+        )
     }
 }

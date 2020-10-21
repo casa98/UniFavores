@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.navArgs
 import com.cagudeloa.unifavores.R
 import com.cagudeloa.unifavores.databinding.FragmentFavorDetailsBinding
 import com.cagudeloa.unifavores.domain.RetrofitInstance
@@ -30,10 +31,9 @@ class FavorDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Get the arguments coming from the previous fragment
-        requireArguments().let {
-            favor = it.getParcelable("favor")!!
-        }
+        // Get the arguments coming from the previous fragment using SafeArgs
+        val args: FavorDetailsFragmentArgs by navArgs()
+        favor = args.favor
     }
 
     override fun onCreateView(
@@ -49,25 +49,15 @@ class FavorDetailsFragment : Fragment() {
         binding.titleFavor.text = favor.favorTitle
         binding.descriptionFavor.text = favor.favorDescription
         binding.locationFavor.text = favor.favorLocation
+        loadUserCreatorImage()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Load Favor creator image
-        viewModel.loadFavorCreatorImage(favor.user)
-        viewModel.image.observe(viewLifecycleOwner) { image ->
-            if (image.isNotEmpty()) {
-                Picasso.get().load(image).placeholder(R.drawable.loading)
-                    .error(R.drawable.ic_big_person).into(binding.circleImageView)
-            } else {
-                binding.circleImageView.setImageResource(R.drawable.ic_big_person)
-            }
-        }
         // Current user is checking this favor and decided to do it
-        binding.doFavorButton.setOnClickListener {doFavor ->
+        binding.doFavorButton.setOnClickListener { doFavor ->
             doFavor.visibility = View.INVISIBLE
             viewModel.changeFavorToAssigned(favor)
             viewModel.result.observe(viewLifecycleOwner) {
@@ -99,6 +89,19 @@ class FavorDetailsFragment : Fragment() {
                     Toast.makeText(requireContext(), "Algo salió mal :(", Toast.LENGTH_SHORT).show()
                     doFavor.visibility = View.INVISIBLE
                 }
+            }
+        }
+    }
+
+    // Load favor creator image, which appears with the favor id
+    private fun loadUserCreatorImage() {
+        viewModel.loadFavorCreatorImage(favor.user)
+        viewModel.image.observe(viewLifecycleOwner) { image ->
+            if (image.isNotEmpty()) {
+                Picasso.get().load(image).placeholder(R.drawable.loading)
+                    .error(R.drawable.ic_big_person).into(binding.circleImageView)
+            } else {
+                binding.circleImageView.setImageResource(R.drawable.ic_big_person)
             }
         }
     }

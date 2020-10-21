@@ -6,18 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cagudeloa.unifavores.R
+import com.cagudeloa.unifavores.databinding.FragmentIncompleteFavorsBinding
 import com.cagudeloa.unifavores.model.Favor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.fragment_incomplete_favors.*
 
 class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClickListener {
 
+    private lateinit var binding: FragmentIncompleteFavorsBinding
     private lateinit var viewModel: IncompleteFavorsViewModel
 
     override fun onCreateView(
@@ -25,8 +27,10 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_incomplete_favors, container, false)
         viewModel = ViewModelProvider(this).get(IncompleteFavorsViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_incomplete_favors, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -34,8 +38,8 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
         viewModel.fetchIncompleteFavors()
         viewModel.favors.observe(viewLifecycleOwner) { incompleteFavorsList ->
             if (!incompleteFavorsList.isNullOrEmpty()) {
-                incompleteFavorsSecond.visibility = View.GONE
-                incompleteFavorsRecyclerView.visibility = View.VISIBLE
+                binding.incompleteFavorsSecond.visibility = View.GONE
+                binding.incompleteFavorsRecyclerView.visibility = View.VISIBLE
                 if (isAdded) {
                     val incompleteFavorsAdapter =
                         IncompleteFavorsAdapter(
@@ -43,11 +47,11 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
                             this@IncompleteFavorsFragment,
                             incompleteFavorsList
                         )
-                    incompleteFavorsRecyclerView.adapter = incompleteFavorsAdapter
+                    binding.incompleteFavorsRecyclerView.adapter = incompleteFavorsAdapter
                 }
             } else {
-                incompleteFavorsRecyclerView.visibility = View.GONE
-                incompleteFavorsSecond.visibility = View.VISIBLE
+                binding.incompleteFavorsRecyclerView.visibility = View.GONE
+                binding.incompleteFavorsSecond.visibility = View.VISIBLE
             }
         }
     }
@@ -58,7 +62,7 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
     }
 
     private fun setupRecyclerView() {
-        incompleteFavorsRecyclerView.layoutManager =
+        binding.incompleteFavorsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
@@ -82,33 +86,27 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
                         // Go db and update this favor to status = 1 (completed)
                         viewModel.updateStatusInDatabase(favor)
                         viewModel.result.observe(viewLifecycleOwner) {
-                            if (it == null) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Favor completado",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Error: ${it.message}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                            if (it == null)
+                                showToast("Favor completado")
+                            else
+                                showToast("Error: ${it.message}")
                         }
                     }
                     secondBuilder.show()
                 } else {
                     // Take me to chat with ${favor.user}
-                    val bundle = Bundle()
-                    bundle.putString("userID", favor.user)
-                    bundle.putString("username", favor.username)
-                    bundle.putString("otherUsername", favor.assignedUsername)
                     findNavController().navigate(
-                        R.id.action_incompletFragment_to_messagesFragment,
-                        bundle
+                        IncompleteFavorsFragmentDirections.actionIncompletFragmentToMessagesFragment(
+                            favor.user,
+                            favor.username,
+                            favor.assignedUsername
+                        )
                     )
                 }
             }).show()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 }

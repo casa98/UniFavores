@@ -31,7 +31,11 @@
         android:id="@+id/favorDetailsFragment"
         android:name="com.cagudeloa.unifavores.ui.details.FavorDetailsFragment"
         android:label="Detalles"
-        tools:layout="@layout/fragment_favor_details" />
+        tools:layout="@layout/fragment_favor_details" >
+        <argument
+            android:name="favor"
+            app:argType="com.cagudeloa.unifavores.model.Favor" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.cagudeloa.unifavores.ui.profile.ProfileFragment"
@@ -66,7 +70,17 @@
     </fragment>
     <fragment
         android:id="@+id/messagesFragment"
-        android:name="com.cagudeloa.unifavores.ui.chat.MessagesFragment" />
+        android:name="com.cagudeloa.unifavores.ui.chat.MessagesFragment" >
+        <argument
+            android:name="userID"
+            app:argType="string" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="otherUsername"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/myFavorsFragment"
         android:name="com.cagudeloa.unifavores.ui.myfavors.MyFavorsFragment"
