@@ -37,18 +37,7 @@ class ChatsAdapter(
         @SuppressLint("SetTextI18n")
         override fun bind(item: User, position: Int) {
             itemView.chatUsernameText.text = item.username
-            if (item.score.toString() == "-1") {
-                // Comes from ChatsFragment and..
-                // It's a favor that someone is making to the currentUser
-                itemView.chatSecondText.text = "Me está haciendo un favor"
-            } else if (item.score.toString() == "-2") {
-                // Comes from ChatsFragment and..
-                // It's a favor that currentUser is making to someone else
-                itemView.chatSecondText.text = "Le estoy haciendo un favor"
-            } else {
-                // Comes from StatisticsFragment, show everything
-                itemView.chatSecondText.text = item.score.toString() + " puntos"
-            }
+            itemView.chatSecondText.text = item.score.toString() + " points"
             //itemView.chatUserImage.setImageResource(R.drawable.someone)
             if (item.image.isNotEmpty()) {
                 GlobalScope.launch(Dispatchers.Main) {

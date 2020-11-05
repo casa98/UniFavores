@@ -11,19 +11,19 @@
     <string name="login">Login</string>
     <string name="new_user_register_now">New here? Register</string>
     <string name="add_favor">Add a favor</string>
-    <string name="pide_tu_favor">Ask a favor</string>
+    <string name="pide_tu_favor">Ask for a favor</string>
     <string name="un_titulo_para_tu_favor">Title for your favor</string>
     <string name="descripcion">Description</string>
     <string name="pedir_favor">Request favor</string>
     <string name="favor_pedido_por">Favor requested for:</string>
     <string name="realizar_favor">Do this favor</string>
-    <string name="type_a_message">Message...</string>
+    <string name="type_a_message">Message…</string>
     <string name="send_message_button">Send message button</string>
     <string name="unifavores">UniFavors</string>
     <string name="lugar_de_entrega">Delivery place</string>
     <string name="titulo">Title</string>
     <string name="no_favors_yet">No favors to do yet, come back later :)</string>
-    <string name="no_favor_selected">You haven't selected any favor to do yet :(</string>
+    <string name="no_favor_selected">You haven\'t selected any favor to do yet :(</string>
     <string name="favors_to_complete">Favors you promised to complete. Tap one to see more options:</string>
     <string name="change_picture">Change picture</string>
     <string name="score_label">Score:</string>
@@ -37,9 +37,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mis_favores">My favors</string>
-    <string name="no_favor_yet">You haven't requested any favor yet :)</string>
+    <string name="no_favor_yet">You haven\'t requested any favor yet :)</string>
     <string name="estado">STATUS:</string>
     <string name="no_messages_yet">No messages yet, say hi!</string>
-    <string name="chats_with_volunteers_label">Here will appear chats with the ones you're making or are making you any favor</string>
+    <string name="chats_with_volunteers_label">Here will appear chats with the ones you\'re making or are making you any favor</string>
     <string name="ask_for_a_favor">Ask for a favor</string>
 </resources>

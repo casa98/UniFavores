@@ -69,8 +69,8 @@ class FavorDetailsFragment : Fragment() {
                     PushNotification(
                         // Content of the notification
                         NotificationData(
-                            "Hola, ${favor.username}",
-                            "$it te está realizando el favor:\n${favor.favorTitle}"
+                            "Hello, ${favor.username}",
+                            "$it is making you a favor:\n${favor.favorTitle}"
                         ),
                         topic
                     ).also { data ->
@@ -81,12 +81,12 @@ class FavorDetailsFragment : Fragment() {
                     // Show a message
                     Snackbar.make(
                         view,
-                        "Revisa este favor y chatea con ${binding.favorCreatorText.text} yendo al Menú",
+                        "Check this favor and chat with ${binding.favorCreatorText.text} going to Menu",
                         Snackbar.LENGTH_LONG
                     ).setAction("Action", null).show()
                     binding.doFavorButton.visibility = View.GONE
                 } else {
-                    Toast.makeText(requireContext(), "Algo salió mal :(", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Something went wrong :(", Toast.LENGTH_SHORT).show()
                     doFavor.visibility = View.INVISIBLE
                 }
             }

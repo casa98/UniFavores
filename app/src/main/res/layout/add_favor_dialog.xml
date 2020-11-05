@@ -34,7 +34,7 @@
             app:counterEnabled="true"
             app:counterMaxLength="30"
             app:endIconMode="clear_text"
-            app:helperText="Sé breve y conciso"
+            app:helperText="Be brief and concise"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/materialTextView">
@@ -58,7 +58,7 @@
             app:boxBackgroundMode="outline"
             app:counterEnabled="true"
             app:counterMaxLength="200"
-            app:helperText="Describe lo que necesitas"
+            app:helperText="Describe what you need"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/favorTitleText">
@@ -83,7 +83,7 @@
             app:boxBackgroundMode="outline"
             app:counterEnabled="true"
             app:counterMaxLength="30"
-            app:helperText="Dónde será entregado tu favor"
+            app:helperText="Where will it be delivered"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/favorDescriptionText">

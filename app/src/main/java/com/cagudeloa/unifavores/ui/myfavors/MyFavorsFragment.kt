@@ -82,23 +82,23 @@ class MyFavorsFragment : Fragment(), MyFavorsAdapter.OnItemClickListener {
         if (favor.status != COMPLETED) {
             val builder = MaterialAlertDialogBuilder(requireContext())
             if (favor.status == UNASSIGNED) {
-                builder.setTitle("¿Deseas eliminar este favor?")
-                builder.setMessage("No recuperarás los puntos")
-                builder.setNegativeButton("No", null)
-                builder.setPositiveButton("Sí") { _, _ ->
+                builder.setTitle("Do you want to delete this favor?")
+                builder.setMessage("You won't recover any points")
+                builder.setNegativeButton("Yes", null)
+                builder.setPositiveButton("No") { _, _ ->
                     // Go db delete this favor
                     viewModel.deleteFavor(favor)
                     viewModel.result.observe(this) {
                         if (it == null)
-                            showToast("Favor eliminado")
+                            showToast("Favor deleted")
                         else
                             showToast("Error: ${it.message}")
                     }
                 }
             } else if (favor.status == ASSIGNED) {
-                builder.setTitle("¿Deseas chatear con ${favor.assignedUsername}?\n")
+                builder.setTitle("Do you want to chat with ${favor.assignedUsername}?\n")
                 builder.setNegativeButton("No", null)
-                builder.setPositiveButton("Sí") { _, _ ->
+                builder.setPositiveButton("Yes") { _, _ ->
                     navigateToChat(favor)
                 }
             }

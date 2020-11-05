@@ -73,21 +73,21 @@ class IncompleteFavorsFragment : Fragment(), IncompleteFavorsAdapter.OnItemClick
      */
     override fun onItemClick(favor: Favor) {
         val builder = MaterialAlertDialogBuilder(requireContext())
-        builder.setTitle("¿Qué deseas hacer?")
+        builder.setTitle("What do you want to do?")
         builder.setItems(
-            arrayOf("  Marcar como completado", "  Chatear"),
+            arrayOf("  Mark as completed", "  Chat"),
             DialogInterface.OnClickListener { _, i ->
                 if (i == 0) {
                     // Show a confirmation dialog
                     val secondBuilder = MaterialAlertDialogBuilder(requireContext())
-                    secondBuilder.setTitle("¿Seguro que has completado este favor?\n")
-                    secondBuilder.setNegativeButton("No", null)
-                    secondBuilder.setPositiveButton("Sí") { _, _ ->
+                    secondBuilder.setTitle("Sure you have completed this favor?\n")
+                    secondBuilder.setNegativeButton("Yes", null)
+                    secondBuilder.setPositiveButton("No") { _, _ ->
                         // Go db and update this favor to status = 1 (completed)
                         viewModel.updateStatusInDatabase(favor)
                         viewModel.result.observe(viewLifecycleOwner) {
                             if (it == null)
-                                showToast("Favor completado")
+                                showToast("Favor completed")
                             else
                                 showToast("Error: ${it.message}")
                         }

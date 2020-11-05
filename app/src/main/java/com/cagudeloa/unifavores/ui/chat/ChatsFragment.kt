@@ -67,7 +67,7 @@ class ChatsFragment : Fragment(), ChatsAdapter.OnItemClickListener {
                 user.uid,
                 user.username,
                 // TODO Need the currentUser username and send it (or any other way to solve it)
-                "Nuevo mensaje"
+                "New Message"
             )
         )
     }

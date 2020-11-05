@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.cagudeloa.unifavores.ui.favors.FavorsFragment"
-        android:label="Favores sin hacer"
+        android:label="Unassigned Favors"
         tools:layout="@layout/fragment_favors">
         <action
             android:id="@+id/action_navigation_home_to_favorDetailsFragment"
@@ -25,13 +25,13 @@
     <dialog
         android:id="@+id/addFavor"
         android:name="com.cagudeloa.unifavores.ui.addfavor.AddFavorFragment"
-        android:label="Pide un favor"
+        android:label="Add a favor"
         tools:layout="@layout/add_favor_dialog" />
     <fragment
         android:id="@+id/favorDetailsFragment"
         android:name="com.cagudeloa.unifavores.ui.details.FavorDetailsFragment"
-        android:label="Detalles"
-        tools:layout="@layout/fragment_favor_details" >
+        android:label="Details"
+        tools:layout="@layout/fragment_favor_details">
         <argument
             android:name="favor"
             app:argType="com.cagudeloa.unifavores.model.Favor" />
@@ -39,12 +39,12 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.cagudeloa.unifavores.ui.profile.ProfileFragment"
-        android:label="Perfil"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/incompletFragment"
         android:name="com.cagudeloa.unifavores.ui.incompleteFavors.IncompleteFavorsFragment"
-        android:label="Favores sin completar"
+        android:label="Incompleted Favors"
         tools:layout="@layout/fragment_incomplete_favors">
         <action
             android:id="@+id/action_incompletFragment_to_messagesFragment"
@@ -57,13 +57,13 @@
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="com.cagudeloa.unifavores.ui.statistics.StatisticsFragment"
-        android:label="Estadísticas globales"
+        android:label="Statistics"
         tools:layout="@layout/fragment_statistics" />
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.cagudeloa.unifavores.ui.chat.ChatsFragment"
-        android:label="Conversaciones"
-        tools:layout="@layout/fragment_chats" >
+        android:label="Chats"
+        tools:layout="@layout/fragment_chats">
         <action
             android:id="@+id/action_chatsFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
@@ -84,7 +84,7 @@
     <fragment
         android:id="@+id/myFavorsFragment"
         android:name="com.cagudeloa.unifavores.ui.myfavors.MyFavorsFragment"
-        android:label="Mis Favores"
+        android:label="My Favors"
         tools:layout="@layout/fragment_my_favors">
         <action
             android:id="@+id/action_myFavorsFragment_to_messagesFragment"

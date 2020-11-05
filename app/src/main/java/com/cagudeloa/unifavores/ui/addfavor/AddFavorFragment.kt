@@ -34,7 +34,7 @@ class AddFavorFragment : BottomSheetDialogFragment() {
             val description = binding.favorDescriptionEdit.text.toString().trim()
             val location = binding.favorLocationEdit.text.toString().trim()
             if (title.isEmpty() || description.isEmpty() || location.isEmpty()) {
-                showToast("Todos los campos son requeridos")
+                showToast("All fields are required")
                 return@setOnClickListener
             } else {
                 binding.askFavor.visibility = View.INVISIBLE
@@ -43,7 +43,7 @@ class AddFavorFragment : BottomSheetDialogFragment() {
                 favor.favorDescription = description
                 favor.favorLocation = location
                 viewModel.addFavor(favor)
-                showToast("Favor creado exitosamente")
+                showToast("Favor successfully created")
             }
             // Close Dialog
             dismiss()
