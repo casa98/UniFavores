@@ -21,7 +21,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.header_layout.view.*
 
-class MainActivity : AppCompatActivity() {
+class UniFavoresMainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var auth = FirebaseAuth.getInstance()

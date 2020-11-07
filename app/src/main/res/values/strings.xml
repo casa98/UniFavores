@@ -42,4 +42,5 @@
     <string name="no_messages_yet">No messages yet, say hi!</string>
     <string name="chats_with_volunteers_label">Here will appear chats with the ones you\'re making or are making you any favor</string>
     <string name="ask_for_a_favor">Ask for a favor</string>
+    <string name="launch_activity_text">This app consists of 2 apps (so much recursion!). The first one is a game and the second is a place where you can ask and request favors (great in a campus, e.g).</string>
 </resources>

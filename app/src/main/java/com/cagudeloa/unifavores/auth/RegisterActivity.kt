@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.cagudeloa.unifavores.MainActivity
+import com.cagudeloa.unifavores.UniFavoresMainActivity
 import com.cagudeloa.unifavores.R
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -73,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun navigateToHome() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, UniFavoresMainActivity::class.java)
         startActivity(intent)
         finish()
     }

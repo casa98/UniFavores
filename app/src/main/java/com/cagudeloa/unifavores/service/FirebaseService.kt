@@ -12,7 +12,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import com.cagudeloa.unifavores.MainActivity
+import com.cagudeloa.unifavores.UniFavoresMainActivity
 import com.cagudeloa.unifavores.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -44,7 +44,7 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         // Let's create a notification and show it
-        val intent = Intent(applicationContext, MainActivity::class.java)
+        val intent = Intent(applicationContext, UniFavoresMainActivity::class.java)
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         // If I used same ID, a new notification would overwrite the older one
