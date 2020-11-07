@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.cagudeloa.memorygame.MainFragment"
+        android:name="com.cagudeloa.unifavores.MainFragment"
         android:label="Memory Games"
         tools:layout="@layout/fragment_main">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/memoryFragment"
-        android:name="com.cagudeloa.memorygame.memoryGame.MemoryFragment"
+        android:name="com.cagudeloa.unifavores.memoryGame.MemoryFragment"
         android:label="Memory Game"
         tools:layout="@layout/fragment_memory" />
     <fragment

@@ -11,7 +11,10 @@ class LaunchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_launch)
     }
 
-    fun launchMemoryGames(view: View) {}
+    fun launchMemoryGames(view: View) {
+        val intent = Intent(this, MemoryGamesMainActivity::class.java)
+        startActivity(intent)
+    }
     fun launchFavorsApp(view: View) {
         val intent = Intent(this, UniFavoresMainActivity::class.java)
         startActivity(intent)
