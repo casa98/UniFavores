@@ -143,7 +143,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/round_bg"
+        android:background="@drawable/round_bgnd"
         android:padding="11dp"
         android:text="@string/register"
         android:textColor="@android:color/white"

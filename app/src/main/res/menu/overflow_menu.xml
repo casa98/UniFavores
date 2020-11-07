@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/clear_scores_menu"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/clear_all_scores" />
+
+    <item
+        android:id="@+id/clear_memory_menu"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/clear_memory_game_score" />
+
+    <item
+        android:id="@+id/clear_sequence_menu"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/clear_sequence_game_score" />
+
+    <item
+        android:id="@+id/share"
+        android:enabled="true"
+        android:icon="@drawable/share"
+        android:visible="true"
+        app:showAsAction="ifRoom"
+        android:title="Share" />
+</menu>

@@ -88,7 +88,7 @@ class MyFavorsFragment : Fragment(), MyFavorsAdapter.OnItemClickListener {
                 builder.setPositiveButton("No") { _, _ ->
                     // Go db delete this favor
                     viewModel.deleteFavor(favor)
-                    viewModel.result.observe(this) {
+                    viewModel.result.observe(viewLifecycleOwner) {
                         if (it == null)
                             showToast("Favor deleted")
                         else

@@ -12,7 +12,11 @@
         android:roundIcon="@mipmap/ic_index_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LaunchActivity"
+        <activity
+            android:name=".MemoryGamesMainActivity"
+            android:theme="@style/AppThemeMemory" />
+        <activity
+            android:name=".LaunchActivity"
             android:screenOrientation="locked"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
             <intent-filter>

@@ -43,4 +43,34 @@
     <string name="chats_with_volunteers_label">Here will appear chats with the ones you\'re making or are making you any favor</string>
     <string name="ask_for_a_favor">Ask for a favor</string>
     <string name="launch_activity_text">This app consists of 2 apps (so much recursion!). The first one is a game and the second is a place where you can ask and request favors (great in a campus, e.g).</string>
+
+
+    <!-- Memory Games string -->
+    <string name="grid_1">Grid 1</string>
+    <string name="grid_2">Grid 2</string>
+    <string name="grid_3">Grid 3</string>
+    <string name="grid_4">Grid 4</string>
+    <string name="grid_5">Grid 5</string>
+    <string name="grid_6">Grid 6</string>
+    <string name="grid_7">Grid 7</string>
+    <string name="grid_8">Grid 8</string>
+    <string name="grid_9">Grid 9</string>
+    <string name="grid_12">Grid 12</string>
+    <string name="grid_11">Grid 11</string>
+    <string name="grid_10">Grid 10</string>
+    <string name="timer_text">Timer</string>
+    <string name="current_score">Score</string>
+    <string name="highest_score">Best score</string>
+    <string name="restart_score">200</string>
+    <string name="global_score">Global score</string>
+    <string name="memory_game_button">Memory Game</string>
+    <string name="sequence_game_button">Sequence Game</string>
+    <string name="number_of_squares">Tapped squares:</string>
+    <string name="play_button">Play button</string>
+    <string name="share_text">Hey! My global score in \'Memory Games\' is %1$s\nMemory Game: %2$s\nSequence Game: %3$s\n\nTry to beat my score and show me ;)</string>
+    <string name="clear_memory_game_score">Clear Memory Game score</string>
+    <string name="clear_sequence_game_score">Clear Sequence Game score</string>
+    <string name="clear_all_scores">Clear all scores</string>
+    <string name="brain_image">Brain image</string>
+
 </resources>
