@@ -81,7 +81,7 @@ class ProfileFragment : Fragment() {
         viewModel.image.observe(viewLifecycleOwner) { image ->
             if (image.isNotEmpty()) {
                 GlobalScope.launch(Dispatchers.Main) {
-                    Picasso.get().load(image).placeholder(R.drawable.loading)
+                    Picasso.get().load(image)
                         .error(R.drawable.ic_big_person)
                         .into(binding.profilePhoto)
                 }
@@ -105,7 +105,7 @@ class ProfileFragment : Fragment() {
             uploadPicture(data.data!!)
             // User selected an image from gallery, set it on the view
             GlobalScope.launch(Dispatchers.Main) {
-                Picasso.get().load(data.data).placeholder(R.drawable.loading)
+                Picasso.get().load(data.data)
                     .error(R.drawable.ic_big_person)
                     .into(binding.profilePhoto)
             }

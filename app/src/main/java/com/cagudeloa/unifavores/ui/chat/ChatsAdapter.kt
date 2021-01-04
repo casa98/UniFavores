@@ -41,7 +41,7 @@ class ChatsAdapter(
             //itemView.chatUserImage.setImageResource(R.drawable.someone)
             if (item.image.isNotEmpty()) {
                 GlobalScope.launch(Dispatchers.Main) {
-                    Picasso.get().load(item.image).placeholder(R.drawable.loading)
+                    Picasso.get().load(item.image)
                         .error(R.drawable.ic_person)
                         .into(itemView.chatUserImage)
                 }

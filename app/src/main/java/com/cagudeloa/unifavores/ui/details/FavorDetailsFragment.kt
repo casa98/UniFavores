@@ -98,8 +98,9 @@ class FavorDetailsFragment : Fragment() {
         viewModel.loadFavorCreatorImage(favor.user)
         viewModel.image.observe(viewLifecycleOwner) { image ->
             if (image.isNotEmpty()) {
-                Picasso.get().load(image).placeholder(R.drawable.loading)
-                    .error(R.drawable.ic_big_person).into(binding.circleImageView)
+                Picasso.get().load(image)
+                    .error(R.drawable.ic_person)
+                    .into(binding.circleImageView)
             } else {
                 binding.circleImageView.setImageResource(R.drawable.ic_big_person)
             }
